@@ -1,8 +1,17 @@
 #main function and helper functions for pTFCE R package
 
+# imports:
+devtools::use_package("oro.nifti")
+devtools::use_package("mmand")
+
 #main function
 
-#' pTFCE main function
+#' pTFCE main function.
+#'
+#' The threshold-free cluster enhancement (TFCE) approach integrates cluster information into voxel-wise statistical inference to enhance detectability of neuroimaging signal. Despite the significantly increased sensitivity, the application of TFCE is limited by several factors: (i) generalization to data structures, like brain network connectivity data is not trivial, (ii) TFCE values are in an arbitrary unit, therefore, P-values can only be obtained by a computationally demanding permutation-test.
+#' Here, we introduce a probabilistic approach for TFCE (pTFCE), that gives a simple general framework for topology-based belief boosting.
+#' The core of pTFCE is a conditional probability, calculated based on Bayes' rule, from the probability of voxel intensity and the threshold-wise likelihood function of the measured cluster size. We provide an estimation of these distributions based on Gaussian Random Field (GRF) theory. The conditional probabilities are then aggregated across cluster-forming thresholds by a novel incremental aggregation method. Our approach is validated on simulated and real fMRI data.
+#' pTFCE is shown to be more robust to various ground truth shapes and provides a stricter control over cluster "leaking" than TFCE and, in the most realistic cases, further improves its sensitivity. Correction for multiple comparison can be trivially performed on the enhanced P-values, without the need for permutation testing, thus pTFCE is well-suitable for the improvement of statistical inference in any neuroimaging workflow.
 #'
 #' @param img Nifti image to enhance ("nifti" class from "oro.nifti" package)
 #' @param Rd Resel count (as output by FSL smoothest)
@@ -15,8 +24,7 @@
 #' @return TFCE object
 #' @export
 #'
-#' @examples
-#' Z=readNIfTI("Zmap.nii.gz");
+#' @examples Z=readNIfTI("Zmap.nii.gz");
 #' MASK=readNIfTI("mask.nii.gz");
 #' smooth=read.table("smoothness.txt");
 #' ptfce(Z, V=smooth[2,2], Rd = smooth[1,2]*smooth[2,2], mask = MASK, length.out = 100);
@@ -77,9 +85,8 @@ aggregate.logpvals=function(logpvals, d) #
   return( 0.5*(sqrt(d*(8*s+d))-d) )
 }
 
-# expected value of cluster size at threshold h in img of size V with RESEL count Rd
-# mainly ported from the source code of FSL (https://fsl.fmrib.ox.ac.uk/fsl/fslwiki)
-#' Title
+#' expected value of cluster size at threshold h in img of size V with RESEL count Rd
+#' mainly ported from the source code of FSL (https://fsl.fmrib.ox.ac.uk/fsl/fslwiki)
 #'
 #' @param h image height, that is, Z score threshold
 #' @param V Number of voxels
