@@ -44,7 +44,7 @@ ptfce=function(img, Rd, V, mask, length.out=50,   logpmin=0, logpmax=-log(pnorm(
     thr=img
     thr[img>h]=1
     thr[img<=h]=0
-    ccc=components(thr, kernel = shapeKernel(3, dim = 3, type = "diamond"))
+    ccc=mmand::components(thr, kernel = mmand::shapeKernel(3, dim = 3, type = "diamond"))
     t=table(ccc)
     sizes=t[ccc]
     sizes=sizes*as.numeric(mask)
