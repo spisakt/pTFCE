@@ -58,7 +58,7 @@ ptfce=function(img, Rd, V, mask, length.out=50,   logpmin=0, logpmax=-log(pnorm(
       PVC[,,,hi][sizes==size]=pvox.clust(V, Rd, size, h)
     }
     # plot if you want
-    #  orthographic(nifti(CLUST[,,, hi], datatype=16) )
+    # orthographic(nifti(CLUST[,,, hi], datatype=16) )
   }
   # calculate pTFCE
   pTFCE=array(apply(PVC, c(1,2,3), function(x){exp( -aggregate.logpvals(-log(x), dh) )}), dim=dim(img))
