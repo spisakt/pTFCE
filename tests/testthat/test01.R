@@ -15,7 +15,6 @@ test_that("Volume with random data", {
 
   expect_equal(mean(ptfce), mean(expected))
   expect_equal(sd(ptfce), sd(expected))
-  expect_equal(sd(ptfce[10,10,10]), sd(expected[10,10,10]))
+  expect_equal(ptfce[10,10,10], expected[10,10,10])
 })
-
 
