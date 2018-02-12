@@ -13,7 +13,7 @@ devtools::use_package("mmand")
 #' The core of pTFCE is a conditional probability, calculated based on Bayes' rule, from the probability of voxel intensity and the threshold-wise likelihood function of the measured cluster size. We provide an estimation of these distributions based on Gaussian Random Field (GRF) theory. The conditional probabilities are then aggregated across cluster-forming thresholds by a novel incremental aggregation method. Our approach is validated on simulated and real fMRI data.
 #' pTFCE is shown to be more robust to various ground truth shapes and provides a stricter control over cluster "leaking" than TFCE and, in the most realistic cases, further improves its sensitivity. Correction for multiple comparison can be trivially performed on the enhanced P-values, without the need for permutation testing, thus pTFCE is well-suitable for the improvement of statistical inference in any neuroimaging workflow.
 #'
-#' @param img Nifti image to enhance ("nifti" class from "oro.nifti" package)
+#' @param img Nifti Z-score image to enhance ("nifti" class from "oro.nifti" package)
 #' @param Rd Resel count (as output by FSL smoothest)
 #' @param V Number of voixels in mask
 #' @param mask Mask
