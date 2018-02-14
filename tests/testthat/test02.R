@@ -1,6 +1,6 @@
 #test cases for pTFCE
 require("oro.nifti")
-context("value")
+context("true signal")
 #test_file("../report.log")
 
 test_that("Volume with spherical signal and random noise, SNR=1", {
@@ -31,7 +31,6 @@ test_that("Volume with spherical signal and random noise, SNR=2", {
                    mask = readNIfTI("../../data/test02_mask.nii.gz")
   )$pTFCE)
 
-  expect_equal(mean(ptfce), mean(expected))
   expect_equal(sd(ptfce), sd(expected))
   expect_equal(ptfce[10,10,10], expected[10,10,10]) #background
   expect_equal(ptfce[47,32,16], expected[47,32,16], tolerance = 1.2e-05) #true signal

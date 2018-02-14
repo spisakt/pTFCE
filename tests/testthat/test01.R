@@ -1,6 +1,6 @@
 #test cases for pTFCE
 require("oro.nifti")
-context("value")
+context("random data")
 #test_file("../report.log")
 
 test_that("Volume with random data", {

@@ -8,7 +8,7 @@ ptfce(img, Rd, V, mask, length.out = 50, logpmin = 0,
   logpmax = -log(pnorm(max(img), lower.tail = F)))
 }
 \arguments{
-\item{img}{Nifti image to enhance ("nifti" class from "oro.nifti" package)}
+\item{img}{Nifti Z-score image to enhance ("nifti" class from "oro.nifti" package)}
 
 \item{Rd}{Resel count (as output by FSL smoothest)}
 

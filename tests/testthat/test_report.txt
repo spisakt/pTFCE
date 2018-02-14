@@ -1,0 +1,5 @@
+"file" "context" "test" "nb" "failed" "skipped" "error" "warning" "user" "system" "real"
+"1" "test01.R" "random data" "Volume with random data" 3 0 FALSE FALSE 0 3.006 0.0839999999999996 3.11299999999994
+"2" "test02.R" "true signal" "Volume with spherical signal and random noise, SNR=1" 6 0 FALSE FALSE 2 24.92 1.389 26.5110000000001
+"3" "test02.R" "true signal" "Volume with spherical signal and random noise, SNR=2" 5 0 FALSE FALSE 2 14.161 1.322 15.5840000000001
+"4" "test02.R" "true signal" "Volume with spherical signal and random noise, SNR=3" 6 0 FALSE FALSE 2 8.34 1.322 9.73099999999999
