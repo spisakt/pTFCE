@@ -2,3 +2,4 @@
 
 S3method(aggregate,logpvals)
 export(ptfce)
+export(smoothest)

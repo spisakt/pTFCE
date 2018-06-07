@@ -11,7 +11,8 @@ test_that("Volume with spherical signal and random noise, SNR=1", {
   ptfce=-log(ptfce(img = readNIfTI("../../data/test02A_in.nii.gz"),
               V=smooth[2,2],
               Rd = smooth[1,2]*smooth[2,2],
-              mask = readNIfTI("../../data/test02_mask.nii.gz")
+              mask = readNIfTI("../../data/test02_mask.nii.gz"),
+              verbose = F
   )$pTFCE)
 
   expect_equal(mean(ptfce), mean(expected))
@@ -28,7 +29,8 @@ test_that("Volume with spherical signal and random noise, SNR=2", {
   ptfce=-log(ptfce(img = readNIfTI("../../data/test02B_in.nii.gz"),
                    V=smooth[2,2],
                    Rd = smooth[1,2]*smooth[2,2],
-                   mask = readNIfTI("../../data/test02_mask.nii.gz")
+                   mask = readNIfTI("../../data/test02_mask.nii.gz"),
+                   verbose = F
   )$pTFCE)
 
   expect_equal(sd(ptfce), sd(expected))
@@ -44,7 +46,8 @@ test_that("Volume with spherical signal and random noise, SNR=3", {
   ptfce=-log(ptfce(img = readNIfTI("../../data/test02C_in.nii.gz"),
                    V=smooth[2,2],
                    Rd = smooth[1,2]*smooth[2,2],
-                   mask = readNIfTI("../../data/test02_mask.nii.gz")
+                   mask = readNIfTI("../../data/test02_mask.nii.gz"),
+                   verbose = F
   )$pTFCE)
 
   expect_equal(mean(ptfce), mean(expected))

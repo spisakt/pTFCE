@@ -4,26 +4,32 @@
 \alias{ptfce}
 \title{pTFCE main function.}
 \usage{
-ptfce(img, Rd, V, mask, length.out = 50, logpmin = 0,
-  logpmax = -log(pnorm(max(img), lower.tail = F)))
+ptfce(img, mask, Rd = NA, V = NA, residual, length.out = 50,
+  logpmin = 0, logpmax = -log(pnorm(max(img), lower.tail = F)),
+  verbose = T)
 }
 \arguments{
 \item{img}{Nifti Z-score image to enhance ("nifti" class from "oro.nifti" package)}
 
+\item{mask}{Mask}
+
 \item{Rd}{Resel count (as output by FSL smoothest)}
 
-\item{V}{Number of voixels in mask}
+\item{V}{Number of voxels in mask (as output by FSL smoothest)}
 
-\item{mask}{Mask}
+\item{residual}{4D residual data for a better estimate of image smoothness (optional)}
 
 \item{length.out}{Number of thresholds}
 
 \item{logpmin}{min threshold}
 
 \item{logpmax}{max threshold}
+
+\item{verbose}{boolean: print progress bar and diagnostic messages if true (default)}
 }
 \value{
-TFCE object
+An object of class "ptfce" is a list containing at least the following components:
+pTFCE: the enhnaced image
 }
 \description{
 The threshold-free cluster enhancement (TFCE) approach integrates cluster information into voxel-wise statistical inference to enhance detectability of neuroimaging signal. Despite the significantly increased sensitivity, the application of TFCE is limited by several factors: (i) generalization to data structures, like brain network connectivity data is not trivial, (ii) TFCE values are in an arbitrary unit, therefore, P-values can only be obtained by a computationally demanding permutation-test.
@@ -31,9 +37,29 @@ Here, we introduce a probabilistic approach for TFCE (pTFCE), that gives a simpl
 The core of pTFCE is a conditional probability, calculated based on Bayes' rule, from the probability of voxel intensity and the threshold-wise likelihood function of the measured cluster size. We provide an estimation of these distributions based on Gaussian Random Field (GRF) theory. The conditional probabilities are then aggregated across cluster-forming thresholds by a novel incremental aggregation method. Our approach is validated on simulated and real fMRI data.
 pTFCE is shown to be more robust to various ground truth shapes and provides a stricter control over cluster "leaking" than TFCE and, in the most realistic cases, further improves its sensitivity. Correction for multiple comparison can be trivially performed on the enhanced P-values, without the need for permutation testing, thus pTFCE is well-suitable for the improvement of statistical inference in any neuroimaging workflow.
 }
+\details{
+The function takes a Z-score image and a mask image (both "nifti" object of the oro.nifti package) as obligatory inputs.
+Mask can be either binary or continous, in the latter case it will be thresholded at 0.5.
+Smoothness information Rd (voxels per RESEL) and number of voxels V are optional and are to be interpreted as in FSL "smoothest".
+If not specified, these values are estimated from the data, internally via the smoothest() function of this package, which is a direct port of the corresponding FSL function.
+If Rd and/or V is not specified, and residual is specified, image smoothness will be determined basedd on teh 4D residual data (more accurate, see ?smoothest()).
+The default value of the parameter length.out should work with images having usual ranges of Z-scores. At low values, although the processing becomes faster, the estimation of the enhanced values might become inaccurate. It is not recommended to set it lower than 30.
+The parameters logpmin and logpmax define the range of values the incremental thresholding procedure covers. By default, these are based on the input data.
+}
 \examples{
 Z=readNIfTI("Zmap.nii.gz");
+
 MASK=readNIfTI("mask.nii.gz");
-smooth=read.table("smoothness.txt");
-ptfce(Z, V=smooth[2,2], Rd = smooth[1,2]*smooth[2,2], mask = MASK, length.out = 100);
+
+pTFCE=ptfce(Z, MASK);
+
+smooth=read.table("smoothness.txt"); # e.g. output by FSL
+pTFCE=ptfce(Z, V=smooth[2,2], Rd = smooth[1,2]*smooth[2,2], mask = MASK, length.out = 100);
+# plot if you want
+orthographic(pTFCE$pTFCE, datatype=16) )
+}
+\references{
+T. Spisák, Z. Spisák, M. Zunhammer, U. Bingel, S. Smith, T. Nichols, T. Kincses, Probabilistic TFCE: a generalized combination of cluster size and voxel intensity to increase statistical power, under review.
+
+https://github.com/spisakt/pTFCE
 }
