@@ -56,8 +56,8 @@ ptfce=function(img, mask, Rd=NA, V=NA, residual, length.out=50,   logpmin=0, log
   if (is.na(Rd) || is.na(V))
   {
     smooth=smoothest(img, mask, verbose = verbose)
-    Rd=smooth$resels
     V=smooth$volume
+    Rd=smooth$dLh*V
   }
 
   logp.thres=seq(logpmin, logpmax, length.out=length.out)

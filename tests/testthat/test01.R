@@ -10,7 +10,8 @@ test_that("Volume with random data", {
   ptfce=ptfce(img = readNIfTI("../../data/test01A_in.nii.gz"),
         V=20*20*20,
         Rd = 20, #magic value
-        mask = readNIfTI("../../data/test01A_mask.nii.gz", verbose = F)
+        mask = readNIfTI("../../data/test01A_mask.nii.gz"),
+        verbose = F
   )$pTFCE
 
   expect_equal(mean(ptfce), mean(expected))
@@ -27,7 +28,7 @@ test_that("Volume with random data, smoothness estimated", {
               verbose = F
   )$pTFCE
 
-  #writeNIfTI(ptfce,"../../data/test01B_out.nii.gz")
+  #writeNIfTI(ptfce,"../../data/test01B_out")
 
   expect_equal(mean(ptfce), mean(expected))
   expect_equal(sd(ptfce), sd(expected))
