@@ -16,8 +16,12 @@ smoothest(img, mask, dof = NA, verbose = T)
 \item{verbose}{boolean: print progress bar and diagnostic messages if true (default)}
 }
 \value{
-smoothness estimates
-TODO
+An object of class "smoothness" is a list containing at least the following components:
+volume   volume of the mask used for estimating smoothness, in voxels
+sigmasq  sigma squared values in the x, y and z directions
+FWHM     full width at half maximum values of smoothness in the x, y and z direction (voxels)
+dLh      determininant of Lambda to the half (voxels^-3)
+resels   resel size (voxels per resel)
 }
 \description{
 Ported form the C++ implementation of FSL.

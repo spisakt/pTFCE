@@ -37,7 +37,9 @@ devtools::use_package("mmand")
 #' The parameters logpmin and logpmax define the range of values the incremental thresholding procedure covers. By default, these are based on the input data.
 #'
 #' @return An object of class "ptfce" is a list containing at least the following components:
-#' pTFCE: the enhnaced image
+#' p      (uncorrected) pTFCE enhanced p-values
+#' logp   negative logarithm of pTFCE enhanced p-values
+#' Z      pTFCE enhanced p-values converted to Z-scores
 #'
 #' @export
 #'
@@ -96,10 +98,15 @@ ptfce=function(img, mask, Rd=NA, V=NA, residual, length.out=50,   logpmin=0, log
   }
   # calculate pTFCE
   pTFCE=array(apply(PVC, c(1,2,3), function(x){exp( -aggregate.logpvals(-log(x), dh) )}), dim=dim(img))
-  pTFCE[pTFCE==0]=4.940656e-324 #underflow #TODO: handle this better
+  pTFCE[pTFCE==0]=.Machine$double.xmin#4.940656e-324 #underflow #TODO: handle this better
+  pTFCE[pTFCE==1]=1-.Machine$double.neg.eps #underflow #TODO: handle this better
   #TODO: return object
   if (verbose) close(pb)
-  return(list(pTFCE=pTFCE, CLUST=CLUST, PVC=PVC, thr=threshs, V=V, Rd=Rd, Z=img))
+  return(list(p=pTFCE,
+              logp=-log(pTFCE),
+              Z=qnorm(pTFCE, lower.tail = F)
+              )
+         )
 }
 
 # helper functions
@@ -200,8 +207,12 @@ pvox.clust=function(V, Rd, c, actH) # p-value for Z threshold value given cluste
 #' @param dof degrees of freedom, obligatory if img is a 4D residual image
 #' @param verbose boolean: print progress bar and diagnostic messages if true (default)
 #'
-#' @return smoothness estimates
-#' TODO
+#' @return An object of class "smoothness" is a list containing at least the following components:
+#' volume   volume of the mask used for estimating smoothness, in voxels
+#' sigmasq  sigma squared values in the x, y and z directions
+#' FWHM     full width at half maximum values of smoothness in the x, y and z direction (voxels)
+#' dLh      determininant of Lambda to the half (voxels^-3)
+#' resels   resel size (voxels per resel)
 #' @export
 #'
 #' @details The function takes two images (both "nifti" object of the oro.nifti package): (i) either a Z-score image or a 4D residual image together with the degrees of freedom,

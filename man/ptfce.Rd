@@ -29,7 +29,9 @@ ptfce(img, mask, Rd = NA, V = NA, residual, length.out = 50,
 }
 \value{
 An object of class "ptfce" is a list containing at least the following components:
-pTFCE: the enhnaced image
+p      (uncorrected) pTFCE enhanced p-values
+logp   negative logarithm of pTFCE enhanced p-values
+Z      pTFCE enhanced p-values converted to Z-scores
 }
 \description{
 The threshold-free cluster enhancement (TFCE) approach integrates cluster information into voxel-wise statistical inference to enhance detectability of neuroimaging signal. Despite the significantly increased sensitivity, the application of TFCE is limited by several factors: (i) generalization to data structures, like brain network connectivity data is not trivial, (ii) TFCE values are in an arbitrary unit, therefore, P-values can only be obtained by a computationally demanding permutation-test.

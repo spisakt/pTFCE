@@ -1,6 +1,6 @@
 Package: pTFCE
 Title: Probabilitic Threshold-free Cluster Enhancement of Neuroimages
-Version: 0.0.1.0
+Version: 0.0.2.0
 Authors@R: person("Tamas", "Spisak", email = "tamas.spisak@uk-essen.de", role = c("aut", "cre"))
 Description: The threshold-free cluster enhancement (TFCE) approach integrates cluster information into voxel-wise statistical inference to enhance detectability of neuroimaging signal. Despite the significantly increased sensitivity, the application of TFCE is limited by several factors: (i) generalization to data structures, like brain network connectivity data is not trivial, (ii) TFCE values are in an arbitrary unit, therefore, P-values can only be obtained by a computationally demanding permutation-test.
     Here, we introduce a probabilistic approach for TFCE (pTFCE), that gives a simple general framework for topology-based belief boosting.
