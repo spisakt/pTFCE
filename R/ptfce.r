@@ -37,9 +37,13 @@ devtools::use_package("mmand")
 #' The parameters logpmin and logpmax define the range of values the incremental thresholding procedure covers. By default, these are based on the input data.
 #'
 #' @return An object of class "ptfce" is a list containing at least the following components:
-#' p      (uncorrected) pTFCE enhanced p-values
-#' logp   negative logarithm of pTFCE enhanced p-values
-#' Z      pTFCE enhanced p-values converted to Z-scores
+#' \itemize{
+#' \item{\strong{p} (uncorrected) pTFCE enhanced p-values}
+#' \item{\strong{logp}  negative logarithm of pTFCE enhanced p-values}
+#' \item{\strong{Z} pTFCE enhanced p-values converted to Z-scores}
+#' \item{\strong{number_of_resels} number of resels (input for e.g. ptoz) }
+#' \item{\strong{fwer0.05.Z} Z-score threshold corresponding to the corrected p<0.05 threshold, controlled for FWER}
+#' }
 #'
 #' @export
 #'
@@ -49,14 +53,18 @@ devtools::use_package("mmand")
 #'
 #' pTFCE=ptfce(Z, MASK);
 #'
-#' smooth=read.table("smoothness.txt"); # e.g. output by FSL
+#' smooth=read.table("smoothness.txt"); # e.g. output by FSL smoothest
 #' pTFCE=ptfce(Z, V=smooth[2,2], Rd = smooth[1,2]*smooth[2,2], mask = MASK, length.out = 100);
 #' # plot if you want
 #' orthographic(pTFCE$pTFCE, datatype=16) )
-ptfce=function(img, mask, Rd=NA, V=NA, residual, length.out=50,   logpmin=0, logpmax=-log(pnorm(max(img), lower.tail = F)), verbose=T )
+ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, length.out=50,   logpmin=0, logpmax=-log(pnorm(max(img), lower.tail = F)), verbose=T )
 {
+  autosmooth=F
   if (is.na(Rd) || is.na(V))
   {
+    autosmooth=T
+    if (!is.na(residual))
+      warning("Smoothness estimatmion based on 4D residual data is not yet implemented!")
     smooth=smoothest(img, mask, verbose = verbose)
     V=smooth$volume
     Rd=smooth$dLh*V
@@ -98,13 +106,35 @@ ptfce=function(img, mask, Rd=NA, V=NA, residual, length.out=50,   logpmin=0, log
   }
   # calculate pTFCE
   pTFCE=array(apply(PVC, c(1,2,3), function(x){exp( -aggregate.logpvals(-log(x), dh) )}), dim=dim(img))
-  pTFCE[pTFCE==0]=.Machine$double.xmin#4.940656e-324 #underflow #TODO: handle this better
-  pTFCE[pTFCE==1]=1-.Machine$double.neg.eps #underflow #TODO: handle this better
+  pTFCE[pTFCE==0]=.Machine$double.xmin #underflow
+  pTFCE[pTFCE==1]=1-.Machine$double.neg.eps #underflow
   #TODO: return object
   if (verbose) close(pb)
+  if (autosmooth)
+  {
+    number_of_resels=smooth$volume / smooth$resels
+    fwer0.05.Z=fwe.p2z(number_of_resels, 0.05)
+  }
+  else
+  {
+    if (is.na(resels))
+    {
+      warning("For GRF-based FWER correction, please specify resels, or use smoothness estimation based on the data, by not specifying Rd and V!")
+      number_of_resels=NA
+      fwer0.05.Z=NA
+    }
+    else
+    {
+      number_of_resels=V / resels
+      fwer0.05.Z=fwe.p2z(number_of_resels, 0.05)
+    }
+
+  }
   return(list(p=pTFCE,
               logp=-log(pTFCE),
-              Z=qnorm(pTFCE, lower.tail = F)
+              Z=qnorm(pTFCE, lower.tail = F),
+              number_of_resels=number_of_resels,
+              fwer0.05.Z=fwer0.05.Z
               )
          )
 }
@@ -132,7 +162,7 @@ aggregate.logpvals=function(logpvals, d) #
 #'
 #' @param h image height, that is, Z score threshold
 #' @param V Number of voxels
-#' @param Rd Rd
+#' @param Rd Rd (dLh*V)
 #'
 #' @return Expected value of cluster size
 #'
@@ -202,30 +232,46 @@ pvox.clust=function(V, Rd, c, actH) # p-value for Z threshold value given cluste
 #' For mathematical background, see:
 #' https://www.fmrib.ox.ac.uk/datasets/techrep/tr00df1/tr00df1/index.html
 #'
-#' @param img Z-score image or a 4D residual image, ("nifti" class from "oro.nifti" package)
+#' @param img Z-score image or a 4D residual image, ("nifti" class from
+#'   "oro.nifti" package)
 #' @param mask image mask ("nifti" class from "oro.nifti" package)
 #' @param dof degrees of freedom, obligatory if img is a 4D residual image
-#' @param verbose boolean: print progress bar and diagnostic messages if true (default)
+#' @param verbose boolean: print progress bar and diagnostic messages if true
+#'   (default)
 #'
-#' @return An object of class "smoothness" is a list containing at least the following components:
-#' volume   volume of the mask used for estimating smoothness, in voxels
-#' sigmasq  sigma squared values in the x, y and z directions
-#' FWHM     full width at half maximum values of smoothness in the x, y and z direction (voxels)
-#' dLh      determininant of Lambda to the half (voxels^-3)
-#' resels   resel size (voxels per resel)
+#' @return An object of class "smoothness" is a list containing at least the
+#'   following components:
+#'   \itemize{
+#'   \item \strong{volume}   volume of the mask used for estimating smoothness, in voxels
+#'
+#'   \item \strong{sigmasq}  sigma squared values in the x, y and z directions
+#'
+#'   \item \strong{FWHM}     full width at half maximum values of smoothness in the x, y and z
+#'   direction (voxels)
+#'
+#'   \item \strong{dLh}      determininant of Lambda to the half (voxels^-3)
+#'
+#'   \item \strong{resels}   resel size (voxels per resel) }
 #' @export
 #'
-#' @details The function takes two images (both "nifti" object of the oro.nifti package): (i) either a Z-score image or a 4D residual image together with the degrees of freedom,
-#' and (ii) a mask image as obligatory inputs.
-#' Mask can be either binary or continous, in the latter case it will be thresholded at 0.5.
+#' @details The function takes two images (both "nifti" object of the oro.nifti
+#'   package): (i) either a Z-score image or a 4D residual image together with
+#'   the degrees of freedom, and (ii) a mask image as obligatory inputs. Mask
+#'   can be either binary or continous, in the latter case it will be
+#'   thresholded at 0.5.
 #'
-#' For a Gaussian random field the smoothness is defined as  \deqn{W =|\Lambda|^{-1/2D} } where D is the dimensionality of the field and  \eqn{\Lambda} the covariance matrix of it's first partial derivatives.
+#'   For a Gaussian random field the smoothness is defined as  \deqn{W
+#'   =|\Lambda|^{-1/2D} } where D is the dimensionality of the field and
+#'   \eqn{\Lambda} the covariance matrix of it's first partial derivatives.
 #'
-#' Using Z-score image is less optimal because:
+#'   Using Z-score image is less optimal because:
+#' \itemize{
+#' \item Smoothness estimates need spatial derivatives, which are very noisy
+#'   quantities and, for a single 3D map, can be computed just once on each
+#'   direction.
+#' \item The z-map may contain effects, and these affect smoothness.
+#' }
 #'
-#' - Smoothness estimates need spatial derivatives, which are very noisy quantities and, for a single 3D map, can be computed just once on each direction.
-#'
-#' - The z-map may contain effects, and these affect smoothness.
 #'
 smoothest=function(img, mask, dof=NA, verbose=T)
 {
@@ -441,3 +487,83 @@ interpolate=function(v)
   return(retval^0.5)
 
 }
+
+#' Convert Z-score value to FWER corrected p-value
+#'
+#' https://github.com/spisakt/pTFCE
+#'
+#' @param resel_count resel count
+#' @param Z z-score value
+#'
+#' @details The Z-score value is converted to to p-value, corrected for multiple comparisons by controlling for famili-wise error rate
+#' The parameter resel_count is the number of resels (resolution elements) in the image, and can be obtained e.g by smoothest() (see examples).
+#'
+#' @return FWER-corrected p-value
+#'
+#' @export
+#'
+#' @examples
+#' s=smoothest(zmap, mask)
+#' fwe.z2p(resel_count=s$volume/s$resels, Z=2.3)
+#'
+#' pTFCE=ptfe(zmap, mask)
+#' fwe.z2p(pTFCE$number_of_resels, Z=3.1)
+fwe.z2p=function(resel_count, Z)
+{
+  # based on FSL
+  #the probability of a family wise error is approximately equiv- alent to the expected Euler Characteristic
+  if (Z<2)
+    p=1 # Below z of 2 E(EC) becomes non-monotonic
+  else
+    p = resel_count * 0.11694 * exp(-0.5*Z*Z)*(Z*Z-1)  #/* 0.11694 = (4ln2)^1.5 / (2pi)^2 */
+  return(min(p,1.0))
+}
+
+#' Get Z-score threshold for an FWER corrected p-value
+#'
+#' https://github.com/spisakt/pTFCE
+#'
+#' @param resel_count resel count
+#' @param FWEP FWER corrected p-value
+#'
+#' @details The p-value, corrected for multiple comparisons by controlling for famili-wise error rate, is converted to a Z-score threshold.
+#' The parameter resel_count is the number of resels (resolution elements) in the image, and can be obtained e.g by smoothest() (see examples).
+#'
+#' @return Z-score threshold
+#'
+#' @export
+#'
+#' @examples
+#' s=smoothest(zmap, mask)
+#' fwe.p2z(resel_count=s$volume/s$resels, FWEP=0.05)
+#'
+#' pTFCE=ptfe(zmap, mask)
+#' fwe.p2z(pTFCE$number_of_resels, FWEP=0.05)
+fwe.p2z=function(resel_count, FWEP=0.05)
+{
+  # based on FSL ptoz implementation
+  p=FWEP/(resel_count*0.11694) #/* (4ln2)^1.5 / (2pi)^2 */
+
+  #if (p<MINP) p=MINP;
+
+  if (p>0.5)
+    return(0)
+  else
+  {
+      l=2
+      u=100
+      z=0
+      while (u-l>0.001)
+      {
+        z=(u+l)/2
+        pp=exp(-0.5*z*z)*(z*z-1)
+        if (pp<p)
+          u=z
+        else
+          l=z
+      }
+
+  }
+  return(z)
+}
+

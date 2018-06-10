@@ -7,21 +7,30 @@
 smoothest(img, mask, dof = NA, verbose = T)
 }
 \arguments{
-\item{img}{Z-score image or a 4D residual image, ("nifti" class from "oro.nifti" package)}
+\item{img}{Z-score image or a 4D residual image, ("nifti" class from
+"oro.nifti" package)}
 
 \item{mask}{image mask ("nifti" class from "oro.nifti" package)}
 
 \item{dof}{degrees of freedom, obligatory if img is a 4D residual image}
 
-\item{verbose}{boolean: print progress bar and diagnostic messages if true (default)}
+\item{verbose}{boolean: print progress bar and diagnostic messages if true
+(default)}
 }
 \value{
-An object of class "smoothness" is a list containing at least the following components:
-volume   volume of the mask used for estimating smoothness, in voxels
-sigmasq  sigma squared values in the x, y and z directions
-FWHM     full width at half maximum values of smoothness in the x, y and z direction (voxels)
-dLh      determininant of Lambda to the half (voxels^-3)
-resels   resel size (voxels per resel)
+An object of class "smoothness" is a list containing at least the
+  following components:
+  \itemize{
+  \item \strong{volume}   volume of the mask used for estimating smoothness, in voxels
+
+  \item \strong{sigmasq}  sigma squared values in the x, y and z directions
+
+  \item \strong{FWHM}     full width at half maximum values of smoothness in the x, y and z
+  direction (voxels)
+
+  \item \strong{dLh}      determininant of Lambda to the half (voxels^-3)
+
+  \item \strong{resels}   resel size (voxels per resel) }
 }
 \description{
 Ported form the C++ implementation of FSL.
@@ -30,15 +39,21 @@ Ported form the C++ implementation of FSL.
 For mathematical background, see:
 https://www.fmrib.ox.ac.uk/datasets/techrep/tr00df1/tr00df1/index.html
 
-The function takes two images (both "nifti" object of the oro.nifti package): (i) either a Z-score image or a 4D residual image together with the degrees of freedom,
-and (ii) a mask image as obligatory inputs.
-Mask can be either binary or continous, in the latter case it will be thresholded at 0.5.
+The function takes two images (both "nifti" object of the oro.nifti
+  package): (i) either a Z-score image or a 4D residual image together with
+  the degrees of freedom, and (ii) a mask image as obligatory inputs. Mask
+  can be either binary or continous, in the latter case it will be
+  thresholded at 0.5.
 
-For a Gaussian random field the smoothness is defined as  \deqn{W =|\Lambda|^{-1/2D} } where D is the dimensionality of the field and  \eqn{\Lambda} the covariance matrix of it's first partial derivatives.
+  For a Gaussian random field the smoothness is defined as  \deqn{W
+  =|\Lambda|^{-1/2D} } where D is the dimensionality of the field and
+  \eqn{\Lambda} the covariance matrix of it's first partial derivatives.
 
-Using Z-score image is less optimal because:
-
-- Smoothness estimates need spatial derivatives, which are very noisy quantities and, for a single 3D map, can be computed just once on each direction.
-
-- The z-map may contain effects, and these affect smoothness.
+  Using Z-score image is less optimal because:
+\itemize{
+\item Smoothness estimates need spatial derivatives, which are very noisy
+  quantities and, for a single 3D map, can be computed just once on each
+  direction.
+\item The z-map may contain effects, and these affect smoothness.
+}
 }

@@ -12,7 +12,7 @@ Es(h, V, Rd)
 
 \item{V}{Number of voxels}
 
-\item{Rd}{Rd}
+\item{Rd}{Rd (dLh*V)}
 }
 \value{
 Expected value of cluster size

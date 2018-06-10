@@ -4,9 +4,9 @@
 \alias{ptfce}
 \title{pTFCE main function.}
 \usage{
-ptfce(img, mask, Rd = NA, V = NA, residual, length.out = 50,
-  logpmin = 0, logpmax = -log(pnorm(max(img), lower.tail = F)),
-  verbose = T)
+ptfce(img, mask, Rd = NA, V = NA, resels = NA, residual = NA,
+  length.out = 50, logpmin = 0, logpmax = -log(pnorm(max(img), lower.tail
+  = F)), verbose = T)
 }
 \arguments{
 \item{img}{Nifti Z-score image to enhance ("nifti" class from "oro.nifti" package)}
@@ -29,9 +29,13 @@ ptfce(img, mask, Rd = NA, V = NA, residual, length.out = 50,
 }
 \value{
 An object of class "ptfce" is a list containing at least the following components:
-p      (uncorrected) pTFCE enhanced p-values
-logp   negative logarithm of pTFCE enhanced p-values
-Z      pTFCE enhanced p-values converted to Z-scores
+\itemize{
+\item{\strong{p} (uncorrected) pTFCE enhanced p-values}
+\item{\strong{logp}  negative logarithm of pTFCE enhanced p-values}
+\item{\strong{Z} pTFCE enhanced p-values converted to Z-scores}
+\item{\strong{number_of_resels} number of resels (input for e.g. ptoz) }
+\item{\strong{fwer0.05.Z} Z-score threshold corresponding to the corrected p<0.05 threshold, controlled for FWER}
+}
 }
 \description{
 The threshold-free cluster enhancement (TFCE) approach integrates cluster information into voxel-wise statistical inference to enhance detectability of neuroimaging signal. Despite the significantly increased sensitivity, the application of TFCE is limited by several factors: (i) generalization to data structures, like brain network connectivity data is not trivial, (ii) TFCE values are in an arbitrary unit, therefore, P-values can only be obtained by a computationally demanding permutation-test.
@@ -55,7 +59,7 @@ MASK=readNIfTI("mask.nii.gz");
 
 pTFCE=ptfce(Z, MASK);
 
-smooth=read.table("smoothness.txt"); # e.g. output by FSL
+smooth=read.table("smoothness.txt"); # e.g. output by FSL smoothest
 pTFCE=ptfce(Z, V=smooth[2,2], Rd = smooth[1,2]*smooth[2,2], mask = MASK, length.out = 100);
 # plot if you want
 orthographic(pTFCE$pTFCE, datatype=16) )
