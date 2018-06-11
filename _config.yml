@@ -1,4 +1,5 @@
 theme: jekyll-theme-minimal
-title: Welcome to the pTFCE homepage!
+title: pTFCE
+description: Probabilistic Threshold-free Cluster Enhancement of Neuroimages
 logo: img/graphical_abstract.png
 show_downloads: "true"
