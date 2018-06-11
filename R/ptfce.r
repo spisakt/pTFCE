@@ -108,7 +108,6 @@ ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, length.out=50,   
   pTFCE=array(apply(PVC, c(1,2,3), function(x){exp( -aggregate.logpvals(-log(x), dh) )}), dim=dim(img))
   pTFCE[pTFCE==0]=.Machine$double.xmin #underflow
   pTFCE[pTFCE==1]=1-.Machine$double.neg.eps #underflow
-  #TODO: return object
   if (verbose) close(pb)
   if (autosmooth)
   {
