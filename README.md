@@ -8,9 +8,10 @@ It performs topology-based belief boosting by integrating cluster information in
 The following pages provide and overview of the theoretical basis, and a some examples for the usage of the pTFCE technique.
 
 For a detailed description and theory, please refer to (and please cite):
-***
+
+
 > _Tamás Spisák, Zsófia Spisák, Matthias Zunhammer, Ulrike Bingel, Stephen Smith, Thomas Nichols, Tamás Kincses, Probabilistic TFCE: a generalised combination of cluster size and voxel intensity to increase statistical power. Under review in Neuroimage._
-***
+
 
 ## Contents
 1. [Overview](https://github.com/spisakt/pTFCE/wiki/1.-Overview)
