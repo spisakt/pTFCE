@@ -39,4 +39,4 @@ For a detailed description and theory, please refer to (and please cite):
 [Citation and References](https://github.com/spisakt/pTFCE/wiki/Citation-&-References)
 
 
-![image](https://github.com/spisakt/pTFCE/blob/master/img/graphical_abstract.png)
+![image](img/graphical_abstract.png)
