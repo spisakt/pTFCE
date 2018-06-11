@@ -1,2 +1,4 @@
 theme: jekyll-theme-minimal
 title: Welcome to the pTFCE homepage!
+logo: img/graphical_abstract.png
+show_downloads: "true"
