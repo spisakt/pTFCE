@@ -1,4 +1,4 @@
-# pTFCE: probabilistic Treshold-free Cluster Enhancement 
+# Probabilistic Treshold-free Cluster Enhancement 
 
 Welcome to the wiki pages of pTFCE!
 
