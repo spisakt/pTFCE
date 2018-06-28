@@ -25,7 +25,7 @@ For a detailed description and theory, please refer to (and please cite):
 5. [The FSL extension](https://github.com/spisakt/pTFCE/wiki/5.-FSL-extension)<br/>
    5.1 [Installation](https://github.com/spisakt/pTFCE/wiki/5.-FSL-extension)<br/>
    5.2 [Usage](https://github.com/spisakt/pTFCE/wiki/5.-FSL-extension)
-6. [The Nipype interface](https://github.com/spisakt/pTFCE/wiki/6.-Nipype-Interface)
+6. [The Nipype interface](https://github.com/spisakt/pTFCE/wiki/6.-Nipype-Interface) <br/>
 [Citation and References](https://github.com/spisakt/pTFCE/wiki/Citation-&-References)
 
 ![image](img/graphical_abstract.png)
