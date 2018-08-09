@@ -59,6 +59,7 @@ devtools::use_package("mmand")
 #' orthographic(pTFCE$pTFCE, datatype=16) )
 ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, length.out=50,   logpmin=0, logpmax=-log(pnorm(max(img), lower.tail = F)), verbose=T )
 {
+  require(methods)
   autosmooth=F
   if (is.na(Rd) || is.na(V))
   {
@@ -110,10 +111,10 @@ ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, length.out=50,   
   # copy nifit header information
   snames = slotNames(img)
   snames = snames[ !snames %in% c(".Data", "dim_") ]
-  pTFCE = nifti(img = pTFCE, dim = dim(pTFCE), ...)
-  class(arr) = class(img)
+  pTFCE = nifti(img = pTFCE, dim = dim(pTFCE))
+  class(pTFCE) = class(img)
   for (islot in snames) {
-    slot(arr, islot) = slot(img, islot)
+    slot(pTFCE, islot) = slot(img, islot)
   }
   # done copying header
 
