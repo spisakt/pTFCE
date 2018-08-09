@@ -106,6 +106,17 @@ ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, length.out=50,   
   }
   # calculate pTFCE
   pTFCE=array(apply(PVC, c(1,2,3), function(x){exp( -aggregate.logpvals(-log(x), dh) )}), dim=dim(img))
+
+  # copy nifit header information
+  snames = slotNames(img)
+  snames = snames[ !snames %in% c(".Data", "dim_") ]
+  pTFCE = nifti(img = pTFCE, dim = dim(pTFCE), ...)
+  class(arr) = class(img)
+  for (islot in snames) {
+    slot(arr, islot) = slot(img, islot)
+  }
+  # done copying header
+
   pTFCE[pTFCE==0]=.Machine$double.xmin #underflow
   pTFCE[pTFCE==1]=1-.Machine$double.neg.eps #underflow
   if (verbose) close(pb)
