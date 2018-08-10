@@ -67,7 +67,7 @@ ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, length.out=50,   
   if (length(img[!is.finite(img)])>0)
   {
     warning("Infinite values detected and replaced with zero!")
-    img[!is.finite(img)] = .Machine$double.xmax
+    img[!is.finite(img)] = 0
   }
   autosmooth=F
   if (is.na(Rd) || is.na(V))
