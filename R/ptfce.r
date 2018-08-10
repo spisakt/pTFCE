@@ -59,7 +59,6 @@ devtools::use_package("mmand")
 #' orthographic(pTFCE$pTFCE, datatype=16) )
 ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, length.out=50,   logpmin=0, logpmax=-log(pnorm(max(img), lower.tail = F)), verbose=T )
 {
-  require(methods)
   if (length(img[is.na(img)])>0)
   {
     warning("NAs detected and replaced with zero!")
@@ -68,7 +67,7 @@ ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, length.out=50,   
   if (length(img[!is.finite(img)])>0)
   {
     warning("Infinite values detected and replaced with zero!")
-    img[!is.finite(img)] = 0
+    img[!is.finite(img)] = .Machine$double.xmax
   }
   autosmooth=F
   if (is.na(Rd) || is.na(V))
@@ -118,12 +117,12 @@ ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, length.out=50,   
   pTFCE=array(apply(PVC, c(1,2,3), function(x){exp( -aggregate.logpvals(-log(x), dh) )}), dim=dim(img))
 
   # copy nifit header information
-  snames = slotNames(img)
+  snames = methods::slotNames(img)
   snames = snames[ !snames %in% c(".Data", "dim_") ]
   pTFCE = nifti(img = pTFCE, dim = dim(pTFCE))
   class(pTFCE) = class(img)
   for (islot in snames) {
-    slot(pTFCE, islot) = slot(img, islot)
+    methods::slot(pTFCE, islot) = methods::slot(img, islot)
   }
   # done copying header
 
