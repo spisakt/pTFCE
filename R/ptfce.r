@@ -60,6 +60,16 @@ devtools::use_package("mmand")
 ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, length.out=50,   logpmin=0, logpmax=-log(pnorm(max(img), lower.tail = F)), verbose=T )
 {
   require(methods)
+  if (length(img[is.na(img)])>0)
+  {
+    warning("NAs detected and replaced with zero!")
+    img[is.na(img)] = 0
+  }
+  if (length(img[!is.finite(img)])>0)
+  {
+    warning("Infinite values detected and replaced with zero!")
+    img[!is.finite(img)] = 0
+  }
   autosmooth=F
   if (is.na(Rd) || is.na(V))
   {
@@ -70,7 +80,6 @@ ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, length.out=50,   
     V=smooth$volume
     Rd=smooth$dLh*V
   }
-
   logp.thres=seq(logpmin, logpmax, length.out=length.out)
   dh=logp.thres[2]-logp.thres[1]
   p.thres=exp(-logp.thres)
