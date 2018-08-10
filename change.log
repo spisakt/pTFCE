@@ -1,0 +1,11 @@
+#change.log
+
+v0.0.4.0  (10.08.2018)
+- copying inpout image header to output images
+- handling NAs and INFs in image (with warning)
+
+v0.0.3.0  (10.06.2018)
+- pTFCE fully functional
+- unit test system fully functional
+- FSL-like smoothness estimation implemented
+- FWER rate correction implemented
