@@ -20,12 +20,13 @@ devtools::use_package("mmand")
 #'
 #' @param img Nifti Z-score image to enhance ("nifti" class from "oro.nifti" package)
 #' @param mask Mask
+#' @param Nh Number of thresholds
 #' @param Rd Resel count (as output by FSL smoothest)
 #' @param V Number of voxels in mask (as output by FSL smoothest)
 #' @param residual 4D residual data for a better estimate of image smoothness (optional)
-#' @param length.out Number of thresholds
 #' @param logpmin min threshold
 #' @param logpmax max threshold
+#' @param ZestThr Cluster-forming Z threshold below which P(h|c) is estimated as P(h), due to limitation of GRF theory. (default: 1.3)
 #' @param verbose boolean: print progress bar and diagnostic messages if true (default)
 #'
 #' @details The function takes a Z-score image and a mask image (both "nifti" object of the oro.nifti package) as obligatory inputs.
@@ -33,7 +34,7 @@ devtools::use_package("mmand")
 #' Smoothness information Rd (voxels per RESEL) and number of voxels V are optional and are to be interpreted as in FSL "smoothest".
 #' If not specified, these values are estimated from the data, internally via the smoothest() function of this package, which is a direct port of the corresponding FSL function.
 #' If Rd and/or V is not specified, and residual is specified, image smoothness will be determined basedd on teh 4D residual data (more accurate, see ?smoothest()).
-#' The default value of the parameter length.out should work with images having usual ranges of Z-scores. At low values, although the processing becomes faster, the estimation of the enhanced values might become inaccurate. It is not recommended to set it lower than 30.
+#' The default value of the parameter Nh should work with images having usual ranges of Z-scores. At low values, although the processing becomes faster, the estimation of the enhanced values might become inaccurate and the enhanced p-value distribution becomes increasingly non-uniform. It is not recommended to set it lower than 30.
 #' The parameters logpmin and logpmax define the range of values the incremental thresholding procedure covers. By default, these are based on the input data.
 #'
 #' @return An object of class "ptfce" is a list containing at least the following components:
@@ -54,10 +55,10 @@ devtools::use_package("mmand")
 #' pTFCE=ptfce(Z, MASK);
 #'
 #' smooth=read.table("smoothness.txt"); # e.g. output by FSL smoothest
-#' pTFCE=ptfce(Z, V=smooth[2,2], Rd = smooth[1,2]*smooth[2,2], mask = MASK, length.out = 100);
+#' pTFCE=ptfce(Z, V=smooth[2,2], Rd = smooth[1,2]*smooth[2,2], mask = MASK, Nh = 100);
 #' # plot if you want
 #' orthographic(pTFCE$pTFCE, datatype=16) )
-ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, length.out=50,   logpmin=0, logpmax=-log(pnorm(max(img), lower.tail = F)), verbose=T )
+ptfce=function(img, mask, Nh=100, Rd=NA, V=NA, resels=NA, residual=NA,  logpmin=0, logpmax=-log(pnorm(max(img), lower.tail = F)), ZestThr=1.3, verbose=T )
 {
   if (length(img[is.na(img)])>0)
   {
@@ -79,7 +80,7 @@ ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, length.out=50,   
     V=smooth$volume
     Rd=smooth$dLh*V
   }
-  logp.thres=seq(logpmin, logpmax, length.out=length.out)
+  logp.thres=seq(logpmin, logpmax, length.out=Nh)
   dh=logp.thres[2]-logp.thres[1]
   p.thres=exp(-logp.thres)
   threshs=qnorm(p.thres, lower.tail = F)
@@ -108,7 +109,7 @@ ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, length.out=50,   
     {
       if (size==0)
         next;
-      PVC[,,,hi][sizes==size]=pvox.clust(V, Rd, size, h)
+      PVC[,,,hi][sizes==size]=pvox.clust(V, Rd, size, h, ZestThr=ZestThr)
     }
     # plot if you want
     # orthographic(nifti(CLUST[,,, hi], datatype=16) )
@@ -233,10 +234,10 @@ dvox.clust=function(h, V, Rd, c) # PDF of Z threshold value given cluster size
   dvox(h)*dclust(h, V, Rd, c)/integrate(function(x){dvox(x)*dclust(x, V, Rd, c)}, -Inf, Inf)$value
 }
 
-pvox.clust=function(V, Rd, c, actH) # p-value for Z threshold value given cluster size
+pvox.clust=function(V, Rd, c, actH, ZestThr=1.3) # p-value for Z threshold value given cluster size
 {
-  if (actH<=1.3)
-    return(pvox(actH)) # GRF theory might not apply at low thresholds
+  if (actH<=ZestThr)  # ZestThr: GRF theory might not apply at low thresholds
+    return(pvox(actH))
 
   if (is.nan(dvox.clust(actH, V, Rd, c)[1])) # underflow
     return(exp(-745)) #TODO: make machnie independent

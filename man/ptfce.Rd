@@ -4,14 +4,16 @@
 \alias{ptfce}
 \title{pTFCE main function.}
 \usage{
-ptfce(img, mask, Rd = NA, V = NA, resels = NA, residual = NA,
-  length.out = 50, logpmin = 0, logpmax = -log(pnorm(max(img), lower.tail
-  = F)), verbose = T)
+ptfce(img, mask, Nh = 100, Rd = NA, V = NA, resels = NA,
+  residual = NA, logpmin = 0, logpmax = -log(pnorm(max(img), lower.tail =
+  F)), ZestThr = 1.3, verbose = T)
 }
 \arguments{
 \item{img}{Nifti Z-score image to enhance ("nifti" class from "oro.nifti" package)}
 
 \item{mask}{Mask}
+
+\item{Nh}{Number of thresholds}
 
 \item{Rd}{Resel count (as output by FSL smoothest)}
 
@@ -19,11 +21,11 @@ ptfce(img, mask, Rd = NA, V = NA, resels = NA, residual = NA,
 
 \item{residual}{4D residual data for a better estimate of image smoothness (optional)}
 
-\item{length.out}{Number of thresholds}
-
 \item{logpmin}{min threshold}
 
 \item{logpmax}{max threshold}
+
+\item{ZestThr}{Cluster-forming Z threshold below which P(h|c) is estimated as P(h), due to limitation of GRF theory. (default: 1.3)}
 
 \item{verbose}{boolean: print progress bar and diagnostic messages if true (default)}
 }
@@ -49,7 +51,7 @@ Mask can be either binary or continous, in the latter case it will be thresholde
 Smoothness information Rd (voxels per RESEL) and number of voxels V are optional and are to be interpreted as in FSL "smoothest".
 If not specified, these values are estimated from the data, internally via the smoothest() function of this package, which is a direct port of the corresponding FSL function.
 If Rd and/or V is not specified, and residual is specified, image smoothness will be determined basedd on teh 4D residual data (more accurate, see ?smoothest()).
-The default value of the parameter length.out should work with images having usual ranges of Z-scores. At low values, although the processing becomes faster, the estimation of the enhanced values might become inaccurate. It is not recommended to set it lower than 30.
+The default value of the parameter Nh should work with images having usual ranges of Z-scores. At low values, although the processing becomes faster, the estimation of the enhanced values might become inaccurate and the enhanced p-value distribution becomes increasingly non-uniform. It is not recommended to set it lower than 30.
 The parameters logpmin and logpmax define the range of values the incremental thresholding procedure covers. By default, these are based on the input data.
 }
 \examples{
@@ -60,7 +62,7 @@ MASK=readNIfTI("mask.nii.gz");
 pTFCE=ptfce(Z, MASK);
 
 smooth=read.table("smoothness.txt"); # e.g. output by FSL smoothest
-pTFCE=ptfce(Z, V=smooth[2,2], Rd = smooth[1,2]*smooth[2,2], mask = MASK, length.out = 100);
+pTFCE=ptfce(Z, V=smooth[2,2], Rd = smooth[1,2]*smooth[2,2], mask = MASK, Nh = 100);
 # plot if you want
 orthographic(pTFCE$pTFCE, datatype=16) )
 }

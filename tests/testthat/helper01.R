@@ -2,7 +2,7 @@
 require("oro.nifti")
 simulateVol=function(dim=20, data=rnorm(dim*dim*dim))
 {
-  vol=array(data, dim=c(20,20,20))
+  vol=array(data, dim=c(dim,dim,dim))
   return(vol)
 }
 
@@ -14,7 +14,7 @@ createTestVol=function(num=1, tag="A")
     dim=20
     vol=simulateVol(dim)
     mask=simulateVol(dim, 1)
-    ret=ptfce(img = vol, V=20*20*20, Rd = 20, mask = mask, length.out = 50)
+    ret=ptfce(img = vol, V=20*20*20, Rd = 20, mask = mask, Nh=50)
     writeNIfTI(vol, "data/test01A_in")
     writeNIfTI(ret$pTFCE, "data/test01A_out")
     writeNIfTI(mask, "data/test01A_mask")

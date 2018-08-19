@@ -11,6 +11,7 @@ test_that("Volume with random data", {
         V=20*20*20,
         Rd = 20, #magic value
         mask = readNIfTI("../../data/test01A_mask.nii.gz"),
+        Nh=50,
         verbose = F
   )$p
 
@@ -25,6 +26,7 @@ test_that("Volume with random data, smoothness estimated", {
 
   ptfce=ptfce(img = readNIfTI("../../data/test01B_in.nii.gz"),
               mask = readNIfTI("../../data/test01B_mask.nii.gz"),
+              Nh=50,
               verbose = F
   )$p
 

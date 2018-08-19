@@ -1,5 +1,9 @@
 #change.log
 
+v.0.0.5.0 (19.08.2018)
+- parameter 'length.out' renamed to 'Nh'
+- deafult value for Nh=100
+
 v0.0.4.0  (10.08.2018)
 - copying inpout image header to output images
 - handling NAs and INFs in image (with warning)
