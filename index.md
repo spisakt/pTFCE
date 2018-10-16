@@ -15,7 +15,7 @@ For a detailed description and theory, please refer to (and please cite):
 
 
 ## :arrow_down: Download
- [R-package](https://github.com/spisakt/pTFCE/releases)
+ [R-package](https://github.com/spisakt/pTFCE/releases) [Install](https://github.com/spisakt/pTFCE/wiki/3.-R-package)<br/>
  
  SPM Matlab Toolbox: soon
 
