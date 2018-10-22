@@ -3,5 +3,6 @@ title: pTFCE
 description: by Tamas Spisak (University Hospital Essen)
 logo: img/logo.png
 google_analytics: UA-120757757-1
+future: true
 plugins:
   - jemoji
