@@ -4,6 +4,7 @@ Welcome to the [wiki](https://spisakt.github.io/pTFCE/) pages of pTFCE!
 
 pTFCE (probabilistic TFCE) is a cluster-enahncement method to improve detectability of neuroimaging signal.
 It performs topology-based belief boosting by integrating cluster information into voxel-wise statistical inference.
+
 ![image](img/power.png)
 
 The following pages provide and overview of the theoretical basis, and a some examples for the usage of the pTFCE technique.
