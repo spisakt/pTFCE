@@ -1,8 +1,7 @@
 theme: jekyll-theme-minimal
 title: pTFCE
-description: by Tamas Spisak (University Hospital Essen)
+description: by Tamas Spisak
 logo: img/logo.png
 google_analytics: UA-120757757-1
-future: true
 plugins:
   - jemoji
