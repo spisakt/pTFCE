@@ -1,7 +1,7 @@
 #change.log
 v.0.1.0 (22.10.2018)
 - post-publication releaase
-- compatibility to the [pTFCE SPM Toolbox](https://github.com/spisakt/pTFCE/wiki/4.-SPM-Toolbox)
+- compatibility to the pTFCE SPM Toolbox (https://github.com/spisakt/pTFCE/wiki/4.-SPM-Toolbox)
 
 v.0.0.5.0 (19.08.2018)
 - parameter 'length.out' renamed to 'Nh'
