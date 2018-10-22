@@ -5,7 +5,6 @@ Welcome to the [wiki](https://spisakt.github.io/pTFCE/) pages of pTFCE!
 pTFCE (probabilistic TFCE) is a cluster-enahncement method to improve detectability of neuroimaging signal.
 It performs topology-based belief boosting by integrating cluster information into voxel-wise statistical inference.
 
-![image](https://github.com/spisakt/pTFCE/blob/master/img/power.png)
 The following pages provide and overview of the theoretical basis, and a some examples for the usage of the pTFCE technique.
 
 For a detailed description and theory, please refer to (and please cite):
@@ -13,9 +12,8 @@ For a detailed description and theory, please refer to (and please cite):
 > _Tamás Spisák, Zsófia Spisák, Matthias Zunhammer, Ulrike Bingel, Stephen Smith, Thomas Nichols, Tamás Kincses, Probabilistic **TFCE: a generalised combination of cluster size and voxel intensity to increase statistical power.** Neuroimage, 185:12-26. [DOI: 10.1016/j.neuroimage.2018.09.078_](https://doi.org/10.1016/j.neuroimage.2018.09.078)
 
 ## :arrow_down: Download
- [R-package](https://github.com/spisakt/pTFCE/releases) & [Installation](https://github.com/spisakt/pTFCE/wiki/3.-R-package)<br/>
+ [R-package](https://github.com/spisakt/pTFCE/releases) & [Installation](https://github.com/spisakt/pTFCE/wiki/3.-R-package)
  
- [SPM Matlab Toolbox](https://github.com/spisakt/pTFCE_spm/releases/tag/V0.1) & [Installation](https://github.com/spisakt/pTFCE/wiki/4.-SPM-Toolbox)
 
 ## Contents
 1. [Overview](https://github.com/spisakt/pTFCE/wiki/1.-Overview)
