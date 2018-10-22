@@ -1,0 +1,18 @@
+note <- sprintf("R package version %s", meta$Version)
+
+bibentry(bibtype = "article",
+         title = "Probabilistic TFCE: A generalized combination of cluster size and voxel intensity to increase statistical power",
+         author = c(person("Tamas", "Spisak"),
+                    person("Zsofia", "Spisak"),
+                    person("Matthias", "Zunhammer"),
+                    person("Ulrike", "Bingel"),
+                    person("Stephen", "Smith"),
+                    person("Thomas", "Nichols"),
+                    person("Tamas", "Kincses")
+                    ),
+         journal="Neuroimage",
+         volume={185},
+  		 pages={12-26},
+         year = 2019,
+         note = note,
+         url = "https://spisakt.github.io/pTFCE/")
