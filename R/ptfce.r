@@ -14,7 +14,7 @@ devtools::use_package("mmand")
 #' pTFCE is shown to be more robust to various ground truth shapes and provides a stricter control over cluster "leaking" than TFCE and, in the most realistic cases, further improves its sensitivity. Correction for multiple comparison can be trivially performed on the enhanced P-values, without the need for permutation testing, thus pTFCE is well-suitable for the improvement of statistical inference in any neuroimaging workflow.
 #'
 #' @references
-#' T. Spisák, Z. Spisák, M. Zunhammer, U. Bingel, S. Smith, T. Nichols, T. Kincses, Probabilistic TFCE: a generalized combination of cluster size and voxel intensity to increase statistical power, under review.
+#' T. Spisák, Z. Spisák, M. Zunhammer, U. Bingel, S. Smith, T. Nichols, T. Kincses, Probabilistic TFCE: a generalized combination of cluster size and voxel intensity to increase statistical power, Neuroimage.
 #'
 #' https://github.com/spisakt/pTFCE
 #'
@@ -80,6 +80,7 @@ ptfce=function(img, mask, Nh=100, Rd=NA, V=NA, resels=NA, residual=NA,  logpmin=
     V=smooth$volume
     Rd=smooth$dLh*V
   }
+
   logp.thres=seq(logpmin, logpmax, length.out=Nh)
   dh=logp.thres[2]-logp.thres[1]
   p.thres=exp(-logp.thres)
@@ -192,7 +193,7 @@ Es=function(h, V, Rd)
   h2=h*h
   ret=  ( log(V)+pnorm(h, log.p = T, lower.tail = F) )
   h2=h2[h>=1.1]
-  ret[h>=1.1] = ret[h>=1.1] - ( log(Rd)+log(h2-1)-h2/2+-2*log(2*pi) )
+  ret[h>=1.1] = ret[h>=1.1] - ( log(Rd)+log(h2-1)-h2/2+-2*log(2*pi) ) # from FSL
 
   return( exp(ret) )
 
@@ -208,7 +209,7 @@ pvox=function(h) # p-value for voxel value
   pnorm(h, lower.tail = F)
 }
 
-dclust=function(h, V, Rd, c) # PDF of cluster extent, given h thershold
+dclust=function(h, V, Rd, c, ZestThr=1.3) # PDF of cluster extent, given h thershold
 {
   if (is.na(c))
     return(dvox(h))
@@ -217,13 +218,13 @@ dclust=function(h, V, Rd, c) # PDF of cluster extent, given h thershold
     lambda=(Es(h, V, Rd)/gamma(2.5) )^(-2/3)
     dclust=lambda*exp(-lambda*c^(2/3))
     #dclust[dclust==0]=.Machine$double.xmin # underflow happened
-    dclust[h<1.3]=0
+    dclust[h<ZestThr]=0
     dclust
   }
   dcl(h, V, Rd, c)/integrate(function(x){dcl(x, V, Rd, c)}, -Inf, Inf)$value
 }
 
-dvox.clust=function(h, V, Rd, c) # PDF of Z threshold value given cluster size
+dvox.clust=function(h, V, Rd, c, ZestThr=1.3) # PDF of Z threshold value given cluster size
 {
   if (is.na(c))
     #return(rep(0, length(h)))
@@ -231,7 +232,7 @@ dvox.clust=function(h, V, Rd, c) # PDF of Z threshold value given cluster size
   if (is.nan(dclust(h, V, Rd, c)[1])) # underflow
     return(dvox(h)*dclust(h, V, Rd, c))
 
-  dvox(h)*dclust(h, V, Rd, c)/integrate(function(x){dvox(x)*dclust(x, V, Rd, c)}, -Inf, Inf)$value
+  dvox(h)*dclust(h, V, Rd, c, ZestThr)/integrate(function(x){dvox(x)*dclust(x, V, Rd, c, ZestThr)}, -Inf, Inf)$value
 }
 
 pvox.clust=function(V, Rd, c, actH, ZestThr=1.3) # p-value for Z threshold value given cluster size
@@ -239,10 +240,10 @@ pvox.clust=function(V, Rd, c, actH, ZestThr=1.3) # p-value for Z threshold value
   if (actH<=ZestThr)  # ZestThr: GRF theory might not apply at low thresholds
     return(pvox(actH))
 
-  if (is.nan(dvox.clust(actH, V, Rd, c)[1])) # underflow
+  if (is.nan(dvox.clust(actH, V, Rd, c, ZestThr=ZestThr)[1])) # underflow
     return(exp(-745)) #TODO: make machnie independent
 
-  integrate(function(x){dvox.clust(x, V, Rd, c)}, actH, Inf)$value
+  integrate(function(x){dvox.clust(x, V, Rd, c, ZestThr=ZestThr)}, actH, Inf)$value
 }
 
 #' Estimate global image smoothness.
