@@ -6,6 +6,7 @@ pTFCE (probabilistic TFCE) is a cluster-enahncement method to improve detectabil
 It performs topology-based belief boosting by integrating cluster information into voxel-wise statistical inference.
 
 ![image](img/power.png)
+
 The following pages provide and overview of the theoretical basis, and a some examples for the usage of the pTFCE technique.
 
 For a detailed description and theory, please refer to (and please cite):
