@@ -24,6 +24,7 @@ devtools::use_package("mmand")
 #' @param Rd Resel count (as output by FSL smoothest)
 #' @param V Number of voxels in mask (as output by FSL smoothest)
 #' @param residual 4D residual data for a better estimate of image smoothness (optional)
+#' @param dof Degrees of freedom (optional, but obligatory if residual is specified)
 #' @param logpmin min threshold
 #' @param logpmax max threshold
 #' @param ZestThr Cluster-forming Z threshold below which P(h|c) is estimated as P(h), due to limitation of GRF theory. (default: 1.3)
@@ -33,7 +34,7 @@ devtools::use_package("mmand")
 #' Mask can be either binary or continous, in the latter case it will be thresholded at 0.5.
 #' Smoothness information Rd (voxels per RESEL) and number of voxels V are optional and are to be interpreted as in FSL "smoothest".
 #' If not specified, these values are estimated from the data, internally via the smoothest() function of this package, which is a direct port of the corresponding FSL function.
-#' If Rd and/or V is not specified, and residual is specified, image smoothness will be determined basedd on teh 4D residual data (more accurate, see ?smoothest()).
+#' If Rd and/or V is not specified, and residual and dof is specified, image smoothness will be determined basedd on teh 4D residual data (more accurate, see ?smoothest()).
 #' The default value of the parameter Nh should work with images having usual ranges of Z-scores. At low values, although the processing becomes faster, the estimation of the enhanced values might become inaccurate and the enhanced p-value distribution becomes increasingly non-uniform. It is not recommended to set it lower than 30.
 #' The parameters logpmin and logpmax define the range of values the incremental thresholding procedure covers. By default, these are based on the input data.
 #'
@@ -58,7 +59,7 @@ devtools::use_package("mmand")
 #' pTFCE=ptfce(Z, V=smooth[2,2], Rd = smooth[1,2]*smooth[2,2], mask = MASK, Nh = 100);
 #' # plot if you want
 #' orthographic(pTFCE$pTFCE, datatype=16) )
-ptfce=function(img, mask, Nh=100, Rd=NA, V=NA, resels=NA, residual=NA,  logpmin=0, logpmax=-log(pnorm(max(img), lower.tail = F)), ZestThr=1.3, verbose=T )
+ptfce=function(img, mask, Nh=100, Rd=NA, V=NA, resels=NA, residual=NA, dof=NA,  logpmin=0, logpmax=-log(pnorm(max(img), lower.tail = F)), ZestThr=1.3, verbose=T )
 {
   if (length(img[is.na(img)])>0)
   {
@@ -74,9 +75,15 @@ ptfce=function(img, mask, Nh=100, Rd=NA, V=NA, resels=NA, residual=NA,  logpmin=
   if (is.na(Rd) || is.na(V))
   {
     autosmooth=T
-    if (!is.na(residual))
-      warning("Smoothness estimatmion based on 4D residual data is not yet implemented!")
-    smooth=smoothest(img, mask, verbose = verbose)
+    if (!is.na(residual) && !is.na(dof))
+    {
+      warning("Smoothness estimatmion based on 4D residual data is suboptimal and might be slow! Consider using FSL smoothest instead!")
+      smooth=smoothest(residual, mask, dof = dof,  verbose = verbose)
+    }
+    else
+    {
+      smooth=smoothest(img, mask, verbose = verbose)
+    }
     V=smooth$volume
     Rd=smooth$dLh*V
   }
@@ -301,8 +308,8 @@ smoothest=function(img, mask, dof=NA, verbose=T)
 
   stand = standardise(mask, img);
   mask_volume=stand$count
-  #mask=stand$mask
-  #img=stand$R
+  mask=stand$mask
+  img=stand$R
   N=0
 
   usez=T
@@ -459,17 +466,22 @@ smoothest=function(img, mask, dof=NA, verbose=T)
 
 standardise=function(mask, R)
 {
-  count=0
   M=dim(R)[4]
-  count=sum(mask[mask>0.5])
   if( !is.na(M) )
   {
     # For each voxel
     #    standardise data in 4th direction
     R=aperm(apply(R, c(1,2,3), scale), c(2,3,4,1))
+    R[is.na(R)]=0
+    std=apply(R, c(1,2,3), sd)
+    mask[std<=0]=0 #TODO_ready: updtae mask if it differs from the actual data
+
   }#endif 4d
-  #TODO: updtae mask if it differs from the actual data
-  return(list(count=count, maks=mask, R=R))
+  mask[is.na(mask)]=0
+
+  count=sum(mask[mask>0.5])
+
+  return(list(count=count, mask=mask, R=R))
 }
 
 interpolate=function(v)
