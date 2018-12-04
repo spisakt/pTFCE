@@ -1,4 +1,8 @@
 #change.log
+v.0.1.1 (22.10.2018)
+- smoothness can be estimnated based on 4D residual data
+  (https://github.com/spisakt/pTFCE/wiki/Some-important-notes-on-smoothness-estimation)
+
 v.0.1.0 (22.10.2018)
 - post-publication releaase
 - compatibility to the pTFCE SPM Toolbox (https://github.com/spisakt/pTFCE/wiki/4.-SPM-Toolbox)
