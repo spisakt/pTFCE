@@ -1,6 +1,7 @@
 # pTFCE: probabilistic Treshold-free Cluster Enhancement 
 
-### Version: 0.1.0
+### Latest version: 0.1.1
+See change.log for details.
 
 For more information, check out the [project pages](https://spisakt.github.io/pTFCE/)!
 
