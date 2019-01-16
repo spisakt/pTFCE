@@ -130,7 +130,7 @@ ptfce=function(img, mask, Nh=100, Rd=NA, V=NA, resels=NA, residual=NA, dof=NA,  
   snames = snames[ !snames %in% c(".Data", "dim_") ]
   pTFCE = nifti(img = pTFCE, dim = dim(pTFCE))
   class(pTFCE) = class(img)
-  pTFCE = datatype(pTFCE, type_string = "FLOAT32")
+  oro.nifti::datatype(pTFCE) = 16 # FLOAT32
   for (islot in snames) {
     methods::slot(pTFCE, islot) = methods::slot(img, islot)
   }
@@ -159,9 +159,11 @@ ptfce=function(img, mask, Nh=100, Rd=NA, V=NA, resels=NA, residual=NA, dof=NA,  
     }
 
   }
+  Z=qnorm(pTFCE, lower.tail = F)
+  oro.nifti::datatype(Z) = 16 # FLOAT32
   return(list(p=pTFCE,
               logp=-log(pTFCE),
-              Z=qnorm(pTFCE, lower.tail = F),
+              Z=Z,
               number_of_resels=number_of_resels,
               fwer0.05.Z=fwer0.05.Z
               )
