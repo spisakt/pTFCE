@@ -75,10 +75,17 @@ ptfce=function(img, mask, Nh=100, Rd=NA, V=NA, resels=NA, residual=NA, dof=NA,  
   if (is.na(Rd) || is.na(V))
   {
     autosmooth=T
-    if (!is.na(residual) && !is.na(dof))
+    if (!is.na(residual))
     {
-      warning("Smoothness estimatmion based on 4D residual data is suboptimal and might be slow! Consider using FSL smoothest instead!")
-      smooth=smoothest(residual, mask, dof = dof,  verbose = verbose)
+        if (!is.na(dof))
+        {
+          warning("Smoothness estimatmion based on 4D residual data is suboptimal and might be slow! Consider using FSL smoothest instead!")
+          smooth=smoothest(residual, mask, dof = dof,  verbose = verbose)
+        }
+        else
+        {
+          warning("Residual biut no dof specified: defaulting back to Z-scxore map-based smoothnes estimation")
+        }
     }
     else
     {
