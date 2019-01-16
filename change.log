@@ -1,4 +1,9 @@
 #change.log
+
+v.0.1.2 (16.01.2019)
+- warning message when 4D-residual but no dof specified
+- output NIfTI data type forced to FLOAT32
+
 v.0.1.1 (22.10.2018)
 - smoothness can be estimnated based on 4D residual data
   (https://github.com/spisakt/pTFCE/wiki/Some-important-notes-on-smoothness-estimation)
