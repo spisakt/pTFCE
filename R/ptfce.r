@@ -84,7 +84,8 @@ ptfce=function(img, mask, Nh=100, Rd=NA, V=NA, resels=NA, residual=NA, dof=NA,  
         }
         else
         {
-          warning("Residual biut no dof specified: defaulting back to Z-scxore map-based smoothnes estimation")
+          warning("Residual but no dof specified: defaulting back to Z-score map-based smoothnes estimation")
+          smooth=smoothest(img, mask, verbose = verbose)
         }
     }
     else
