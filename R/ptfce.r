@@ -130,6 +130,7 @@ ptfce=function(img, mask, Nh=100, Rd=NA, V=NA, resels=NA, residual=NA, dof=NA,  
   snames = snames[ !snames %in% c(".Data", "dim_") ]
   pTFCE = nifti(img = pTFCE, dim = dim(pTFCE))
   class(pTFCE) = class(img)
+  pTFCE = datatype(pTFCE, type_string = "FLOAT32")
   for (islot in snames) {
     methods::slot(pTFCE, islot) = methods::slot(img, islot)
   }
