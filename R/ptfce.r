@@ -161,9 +161,10 @@ ptfce=function(img, mask, Nh=100, Rd=NA, V=NA, resels=NA, residual=NA, dof=NA,  
     }
 
   }
-  Z=zero_trans(qnorm(pTFCE, lower.tail = F))
+  Z=qnorm(pTFCE, lower.tail = F)
   oro.nifti::datatype(Z) = 16 # FLOAT32
   oro.nifti::bitpix(Z) = 32 # FLOAT32
+  Z=zero_trans(Z)
   return(list(p=pTFCE,
               logp=-log(pTFCE),
               Z=Z,
