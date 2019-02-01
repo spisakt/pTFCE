@@ -4,28 +4,32 @@
 \alias{ptfce}
 \title{pTFCE main function.}
 \usage{
-ptfce(img, mask, Nh = 100, Rd = NA, V = NA, resels = NA,
-  residual = NA, logpmin = 0, logpmax = -log(pnorm(max(img), lower.tail =
-  F)), ZestThr = 1.3, verbose = T)
+ptfce(img, mask, Rd = NA, V = NA, resels = NA, residual = NA,
+  dof = NA, logpmin = 0, logpmax = -log(pnorm(max(img), lower.tail = F)),
+  ZestThr = 1.3, Nh = 100, verbose = T)
 }
 \arguments{
 \item{img}{Nifti Z-score image to enhance ("nifti" class from "oro.nifti" package)}
 
 \item{mask}{Mask}
 
-\item{Nh}{Number of thresholds}
+\item{Rd}{Resel count (FSL smoothest: VOLUME*DHL)}
 
-\item{Rd}{Resel count (as output by FSL smoothest)}
+\item{V}{Number of voxels in mask (FSL smoothest: VOLUME)}
 
-\item{V}{Number of voxels in mask (as output by FSL smoothest)}
+\item{resels}{Resel size (FSL smoothest: RESELS)}
 
 \item{residual}{4D residual data for a better estimate of image smoothness (optional)}
 
-\item{logpmin}{min threshold}
+\item{dof}{Degrees of freedom (optional, but obligatory if residual is specified)}
 
-\item{logpmax}{max threshold}
+\item{logpmin}{min threshold (not safe to change the default)}
 
-\item{ZestThr}{Cluster-forming Z threshold below which P(h|c) is estimated as P(h), due to limitation of GRF theory. (default: 1.3)}
+\item{logpmax}{max threshold (not safe to change the default)}
+
+\item{ZestThr}{Cluster-forming Z threshold below which P(h|c) is estimated as P(h), due to limitation of GRF theory. (default: 1.3, not safe to change)}
+
+\item{Nh}{Number of thresholds (not safe to change the default)}
 
 \item{verbose}{boolean: print progress bar and diagnostic messages if true (default)}
 }
@@ -48,26 +52,43 @@ pTFCE is shown to be more robust to various ground truth shapes and provides a s
 \details{
 The function takes a Z-score image and a mask image (both "nifti" object of the oro.nifti package) as obligatory inputs.
 Mask can be either binary or continous, in the latter case it will be thresholded at 0.5.
-Smoothness information Rd (voxels per RESEL) and number of voxels V are optional and are to be interpreted as in FSL "smoothest".
+Parameters V (number of voxels) and Rd (voxels per RESEL, computed as V*RESELS from the smoothest outpout) are optional and are to be interpreted as in FSL "smoothest".
+If you want pTFCE to compute FWER-based Z-threshold for correction of multiple comparisons, specify the parameter resels (resels field of smoothest), together with Rd and V.
 If not specified, these values are estimated from the data, internally via the smoothest() function of this package, which is a direct port of the corresponding FSL function.
-If Rd and/or V is not specified, and residual is specified, image smoothness will be determined basedd on teh 4D residual data (more accurate, see ?smoothest()).
+If Rd and/or V is not specified, and residual and dof is specified, image smoothness will be determined basedd on teh 4D residual data (more accurate, see ?smoothest()).
+For more details on smoothness estimation, see https://github.com/spisakt/pTFCE/wiki/Some-important-notes-on-smoothness-estimation.
 The default value of the parameter Nh should work with images having usual ranges of Z-scores. At low values, although the processing becomes faster, the estimation of the enhanced values might become inaccurate and the enhanced p-value distribution becomes increasingly non-uniform. It is not recommended to set it lower than 30.
-The parameters logpmin and logpmax define the range of values the incremental thresholding procedure covers. By default, these are based on the input data.
+The parameters logpmin and logpmax define the range of values the incremental thresholding procedure covers. By default, these are based on the input data and it is not recommended to cahnge them.
 }
 \examples{
 Z=readNIfTI("Zmap.nii.gz");
 
 MASK=readNIfTI("mask.nii.gz");
 
-pTFCE=ptfce(Z, MASK);
+# OPTION 1: use standalone with Z-map-based smoothness estimation
+pTFCE=ptfce(Z, MASK); # estimate smoothness based on the Z-score map (might be inaccurate, but still garantees FWER)
 
-smooth=read.table("smoothness.txt"); # e.g. output by FSL smoothest
-pTFCE=ptfce(Z, V=smooth[2,2], Rd = smooth[1,2]*smooth[2,2], mask = MASK, Nh = 100);
+#OPTION 2: use smoothness estimation based oj residual data (more accurate)
+RES4D=readNIfTI("res4D.nii.gz");
+pTFCE=ptfce(Z, MASK, residual=RES4D) # a bit slow, currently...
+
+#OPTION 2: equivalent to option2, but faster (uses FSL)
+# run FSL smoothest in the command line:
+# smoothest -r res4d.nii.gz -d DOF -m mask.nii.gz > smoothness.txt
+
+smooth=read.table("smoothness.txt"); # output by FSL smoothest
+pTFCE=ptfce(Z, V=smooth[2,2], Rd = smooth[1,2]*smooth[2,2], mask = MASK);
+
 # plot if you want
-orthographic(pTFCE$pTFCE, datatype=16) )
+orthographic(pTFCE$Z)
+
+# save NIfTI image
+writeNIfTI(pTFCE$Z, "pTFCE_Z")
+
+#See https://github.com/spisakt/pTFCE fro more examples
 }
 \references{
-T. Spisák, Z. Spisák, M. Zunhammer, U. Bingel, S. Smith, T. Nichols, T. Kincses, Probabilistic TFCE: a generalized combination of cluster size and voxel intensity to increase statistical power, under review.
+T. Spisák, Z. Spisák, M. Zunhammer, U. Bingel, S. Smith, T. Nichols, T. Kincses, Probabilistic TFCE: a generalized combination of cluster size and voxel intensity to increase statistical power, Neuroimage.
 
 https://github.com/spisakt/pTFCE
 }

@@ -18,7 +18,7 @@ Z-score threshold
 https://github.com/spisakt/pTFCE
 }
 \details{
-The p-value, corrected for multiple comparisons by controlling for famili-wise error rate, is converted to a Z-score threshold.
+The p-value, corrected for multiple comparisons by controlling for family-wise error rate, is converted to a Z-score threshold.
 The parameter resel_count is the number of resels (resolution elements) in the image, and can be obtained e.g by smoothest() (see examples).
 }
 \examples{
