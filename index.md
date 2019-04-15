@@ -30,8 +30,7 @@ For a detailed description and theory, please refer to (and please cite):
 [![GitHub release](https://img.shields.io/github/release/spisakt/pTFCE.svg)](https://github.com/spisakt/pTFCE/releases/)
 [![GitHub issues](https://img.shields.io/github/issues/spisakt/pTFCE.svg)](https://GitHub.com/spisakt/pTFCE/issues/)
 [![GitHub issues-closed](https://img.shields.io/github/issues-closed/spisakt/pTFCE.svg)](https://GitHub.com/spisakt/pTFCE/issues?q=is%3Aissue+is%3Aclosed)
-[![HitCount](http://hits.dwyl.io/spisakt/pTFCE.svg)](http://hits.dwyl.io/spisakt/pTFCE)
-   
+[![HitCount](http://hits.dwyl.io/spisakt/pTFCE.svg)](http://hits.dwyl.io/spisakt/pTFCE)<br/>
    3.1 [Installation](https://github.com/spisakt/pTFCE/wiki/3.-R-package)<br/>
    3.2 [Usage](https://github.com/spisakt/pTFCE/wiki/3.-R-package)
 4. [The SPM Toolbox](https://github.com/spisakt/pTFCE/wiki/4.-SPM-Toolbox)<br/>
@@ -41,8 +40,7 @@ For a detailed description and theory, please refer to (and please cite):
 [![GitHub release](https://img.shields.io/github/release/spisakt/pTFCE_SPM.svg)](https://github.com/spisakt/pTFCE_SPM/releases/)
 [![GitHub issues](https://img.shields.io/github/issues/spisakt/pTFCE_SPM.svg)](https://GitHub.com/spisakt/pTFCE_SPM/issues/)
 [![GitHub issues-closed](https://img.shields.io/github/issues-closed/spisakt/pTFCE_SPM.svg)](https://GitHub.com/spisakt/pTFCE_SPM/issues?q=is%3Aissue+is%3Aclosed)
-[![HitCount](http://hits.dwyl.io/spisakt/pTFCE_SPM.svg)](http://hits.dwyl.io/spisakt/pTFCE_SPM)
-   
+[![HitCount](http://hits.dwyl.io/spisakt/pTFCE_SPM.svg)](http://hits.dwyl.io/spisakt/pTFCE_SPM)<br/>
    4.1 [Installation](https://github.com/spisakt/pTFCE/wiki/4.-SPM-Toolbox)<br/> 
    4.2 [Usage](https://github.com/spisakt/pTFCE/wiki/4.-SPM-Toolbox)
 5. [The FSL extension](https://github.com/spisakt/pTFCE/wiki/5.-FSL-extension)<br/>
