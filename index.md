@@ -32,7 +32,7 @@ For a detailed description and theory, please refer to (and please cite):
 [![GitHub issues-closed](https://img.shields.io/github/issues-closed/spisakt/pTFCE_SPM.svg)](https://GitHub.com/spisakt/pTFCE_SPM/issues?q=is%3Aissue+is%3Aclosed)
 [![HitCount](http://hits.dwyl.io/spisakt/pTFCE_SPM.svg)](http://hits.dwyl.io/spisakt/pTFCE_SPM)<br/>
 
-## Contents
+## Users' Guide Contents
 1. [Overview](https://github.com/spisakt/pTFCE/wiki/1.-Overview)
 2. [Relation to TFCE](https://github.com/spisakt/pTFCE/wiki/2.-Relation-to-TFCE)
 3. [The R-package](https://github.com/spisakt/pTFCE/wiki/3.-R-package)<br/>
