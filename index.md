@@ -23,6 +23,7 @@ See the [paper](https://doi.org/10.1016/j.neuroimage.2018.09.078) for details.
 For a detailed description and theory, please refer to (and please cite):
 
 > _Tamás Spisák, Zsófia Spisák, Matthias Zunhammer, Ulrike Bingel, Stephen Smith, Thomas Nichols, Tamás Kincses, Probabilistic **TFCE: a generalised combination of cluster size and voxel intensity to increase statistical power.** Neuroimage, 185:12-26._
+
 [![DOI:10.1016/j.neuroimage.2018.09.078](https://zenodo.org/badge/DOI/10.1016/j.neuroimage.2018.09.078.svg)](https://doi.org/10.1016/j.neuroimage.2018.09.078)
 
 ## :arrow_down: Download
