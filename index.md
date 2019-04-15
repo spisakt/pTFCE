@@ -1,5 +1,18 @@
 # Probabilistic Treshold-free Cluster Enhancement 
 
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
+
+[![GitHub release](https://img.shields.io/github/release/Naereen/StrapDown.js.svg)](https://GitHub.com/Naereen/StrapDown.js/releases/)
+
+[![GitHub issues](https://img.shields.io/github/issues/Naereen/StrapDown.js.svg)](https://GitHub.com/Naereen/StrapDown.js/issues/)
+
+[![GitHub issues-closed](https://img.shields.io/github/issues-closed/Naereen/StrapDown.js.svg)](https://GitHub.com/Naereen/StrapDown.js/issues?q=is%3Aissue+is%3Aclosed)
+
+[![HitCount](http://hits.dwyl.io/Naereen/badges.svg)](http://hits.dwyl.io/Naereen/badges)
+
+[![Open Source Love svg1](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
+
+
 Welcome to the [wiki](https://spisakt.github.io/pTFCE/) pages of pTFCE!
 
 pTFCE (probabilistic TFCE) is a cluster-enahncement method to improve detectability of neuroimaging signal.
@@ -12,6 +25,7 @@ See the [paper](https://doi.org/10.1016/j.neuroimage.2018.09.078) for details.
 For a detailed description and theory, please refer to (and please cite):
 
 > _Tamás Spisák, Zsófia Spisák, Matthias Zunhammer, Ulrike Bingel, Stephen Smith, Thomas Nichols, Tamás Kincses, Probabilistic **TFCE: a generalised combination of cluster size and voxel intensity to increase statistical power.** Neuroimage, 185:12-26._ [DOI: 10.1016/j.neuroimage.2018.09.078](https://doi.org/10.1016/j.neuroimage.2018.09.078)
+[![DOI:10.1016/j.neuroimage.2018.09.078](https://zenodo.org/badge/DOI/10.1016/j.neuroimage.2018.09.078)](https://doi.org/10.1016/j.neuroimage.2018.09.078)
 
 ## :arrow_down: Download
  [R-package](https://github.com/spisakt/pTFCE/releases) & [Installation](https://github.com/spisakt/pTFCE/wiki/3.-R-package) **NEW RELEASE** :new: smoothness estimation based on [4D residual data](https://github.com/spisakt/pTFCE/wiki/Some-important-notes-on-smoothness-estimation)<br/>
