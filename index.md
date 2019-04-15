@@ -1,12 +1,12 @@
 # Probabilistic Treshold-free Cluster Enhancement 
 
+
 [![Open Source Love svg1](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/spisakt/pTFCE)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
-[![GitHub release](https://img.shields.io/github/release/Naereen/StrapDown.js.svg)](https://GitHub.com/Naereen/StrapDown.js/releases/)
-[![GitHub issues](https://img.shields.io/github/issues/Naereen/StrapDown.js.svg)](https://GitHub.com/Naereen/StrapDown.js/issues/)
-[![GitHub issues-closed](https://img.shields.io/github/issues-closed/Naereen/StrapDown.js.svg)](https://GitHub.com/Naereen/StrapDown.js/issues?q=is%3Aissue+is%3Aclosed)
-[![HitCount](http://hits.dwyl.io/Naereen/badges.svg)](http://hits.dwyl.io/Naereen/badges)
-[![Package Control total downloads](https://img.shields.io/packagecontrol/dt/SwitchDictionary.svg)](https://packagecontrol.io/packages/SwitchDictionary)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/spisakt/pTFCE/graphs/commit-activity)
+[![GitHub release](https://img.shields.io/github/release/spisakt/pTFCE.svg)](https://github.com/spisakt/pTFCE/releases/)
+[![GitHub issues](https://img.shields.io/github/issues/spisakt/pTFCE.svg)](https://GitHub.com/Naereen/StrapDown.js/issues/)
+[![GitHub issues-closed](https://img.shields.io/github/issues-closed/spisakt/pTFCE.js.svg)](https://GitHub.com/spisakt/pTFCE/issues?q=is%3Aissue+is%3Aclosed)
+[![HitCount](http://hits.dwyl.io/spisakt/pTFCE.svg)](http://hits.dwyl.io/spisakt/pTFCE)
 
 
 
