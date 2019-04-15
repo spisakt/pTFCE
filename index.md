@@ -8,7 +8,6 @@
 [![GitHub issues](https://img.shields.io/github/issues/spisakt/pTFCE.svg)](https://GitHub.com/Naereen/StrapDown.js/issues/)
 [![GitHub issues-closed](https://img.shields.io/github/issues-closed/spisakt/pTFCE.svg)](https://GitHub.com/spisakt/pTFCE/issues?q=is%3Aissue+is%3Aclosed)
 [![HitCount](http://hits.dwyl.io/spisakt/pTFCE.svg)](http://hits.dwyl.io/spisakt/pTFCE)
-[![Github all releases](https://img.shields.io/github/downloads/spisakt/pTFCE/total.svg)](https://GitHub.com/spisakt/pTFCE/releases/)
 
 
 
