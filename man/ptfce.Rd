@@ -5,8 +5,8 @@
 \title{pTFCE main function.}
 \usage{
 ptfce(img, mask, Rd = NA, V = NA, resels = NA, residual = NA,
-  dof = NA, logpmin = 0, logpmax = -log(pnorm(max(img), lower.tail = F)),
-  ZestThr = 1.3, Nh = 100, verbose = T)
+  dof = NA, logpmin = 0, logpmax = -log(pnorm(max(img), lower.tail =
+  F)), ZestThr = 1.3, Nh = 100, verbose = T)
 }
 \arguments{
 \item{img}{Nifti Z-score image to enhance ("nifti" class from "oro.nifti" package)}
