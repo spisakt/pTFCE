@@ -61,7 +61,7 @@ The default value of the parameter Nh should work with images having usual range
 The parameters logpmin and logpmax define the range of values the incremental thresholding procedure covers. By default, these are based on the input data and it is not recommended to cahnge them.
 }
 \examples{
-Z=readNIfTI("Zmap.nii.gz");
+\dontrun{Z=readNIfTI("Zmap.nii.gz");
 
 MASK=readNIfTI("mask.nii.gz");
 
@@ -86,6 +86,7 @@ orthographic(pTFCE$Z)
 writeNIfTI(pTFCE$Z, "pTFCE_Z")
 
 #See https://github.com/spisakt/pTFCE fro more examples
+}
 }
 \references{
 T. Spisák, Z. Spisák, M. Zunhammer, U. Bingel, S. Smith, T. Nichols, T. Kincses, Probabilistic TFCE: a generalized combination of cluster size and voxel intensity to increase statistical power, Neuroimage.

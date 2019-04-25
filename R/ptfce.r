@@ -52,7 +52,7 @@ devtools::use_package("mmand")
 #'
 #' @export
 #'
-#' @examples Z=readNIfTI("Zmap.nii.gz");
+#' @examples \dontrun{Z=readNIfTI("Zmap.nii.gz");
 #'
 #' MASK=readNIfTI("mask.nii.gz");
 #'
@@ -77,6 +77,7 @@ devtools::use_package("mmand")
 #' writeNIfTI(pTFCE$Z, "pTFCE_Z")
 #'
 #' #See https://github.com/spisakt/pTFCE fro more examples
+#' }
 ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, dof=NA,  logpmin=0, logpmax=-log(pnorm(max(img), lower.tail = F)), ZestThr=1.3, Nh=100, verbose=T )
 {
   if (length(img[is.na(img)])>0)
@@ -149,7 +150,7 @@ ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, dof=NA,  logpmin=
     # orthographic(nifti(CLUST[,,, hi], datatype=16) )
   }
   # calculate pTFCE
-  pTFCE=array(apply(PVC, c(1,2,3), function(x){exp( -aggregate.logpvals(-log(x), dh) )}), dim=dim(img))
+  pTFCE=array(apply(PVC, c(1,2,3), function(x){exp( -aggregate_logpvals(-log(x), dh) )}), dim=dim(img))
 
   # copy nifit header information
   snames = methods::slotNames(img)
@@ -209,9 +210,7 @@ ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, dof=NA,  logpmin=
 #'
 #' @return aggregated -logP probability
 #' @export
-#'
-#' @examples
-aggregate.logpvals=function(logpvals, d) #
+aggregate_logpvals=function(logpvals, d) #
 {
   logpvals[is.infinite(logpvals)]=745
   s=sum(logpvals)
@@ -226,8 +225,6 @@ aggregate.logpvals=function(logpvals, d) #
 #' @param Rd Rd (dLh*V)
 #'
 #' @return Expected value of cluster size
-#'
-#' @examples
 Es=function(h, V, Rd)
 {
   h2=h*h
@@ -332,8 +329,6 @@ pvox.clust=function(V, Rd, c, actH, ZestThr=1.3) # p-value for Z threshold value
 #'   direction.
 #' \item The z-map may contain effects, and these affect smoothness.
 #' }
-#'
-#'
 smoothest=function(img, mask, dof=NA, verbose=T)
 {
   if (verbose) cat("* Estimating smoothness based on the data...\n")
@@ -569,11 +564,13 @@ interpolate=function(v)
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' s=smoothest(zmap, mask)
 #' fwe.z2p(resel_count=s$volume/s$resels, Z=2.3)
 #'
 #' pTFCE=ptfe(zmap, mask)
 #' fwe.z2p(pTFCE$number_of_resels, Z=3.1)
+#' }
 fwe.z2p=function(resel_count, Z)
 {
   # based on FSL
@@ -600,11 +597,13 @@ fwe.z2p=function(resel_count, Z)
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' s=smoothest(zmap, mask)
 #' fwe.p2z(resel_count=s$volume/s$resels, FWEP=0.05)
 #'
 #' pTFCE=ptfe(zmap, mask)
 #' fwe.p2z(pTFCE$number_of_resels, FWEP=0.05)
+#' }
 fwe.p2z=function(resel_count, FWEP=0.05)
 {
   # based on FSL ptoz implementation

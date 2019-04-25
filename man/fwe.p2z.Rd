@@ -22,9 +22,11 @@ The p-value, corrected for multiple comparisons by controlling for family-wise e
 The parameter resel_count is the number of resels (resolution elements) in the image, and can be obtained e.g by smoothest() (see examples).
 }
 \examples{
+\dontrun{
 s=smoothest(zmap, mask)
 fwe.p2z(resel_count=s$volume/s$resels, FWEP=0.05)
 
 pTFCE=ptfe(zmap, mask)
 fwe.p2z(pTFCE$number_of_resels, FWEP=0.05)
+}
 }

@@ -22,9 +22,11 @@ The Z-score value is converted to to p-value, corrected for multiple comparisons
 The parameter resel_count is the number of resels (resolution elements) in the image, and can be obtained e.g by smoothest() (see examples).
 }
 \examples{
+\dontrun{
 s=smoothest(zmap, mask)
 fwe.z2p(resel_count=s$volume/s$resels, Z=2.3)
 
 pTFCE=ptfe(zmap, mask)
 fwe.z2p(pTFCE$number_of_resels, Z=3.1)
+}
 }

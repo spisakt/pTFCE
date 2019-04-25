@@ -5,12 +5,12 @@ context("random data")
 
 test_that("Volume with random data", {
 
-  expected=readNIfTI("../../data/test01A_out.nii.gz")
+  expected=readNIfTI(system.file("extdata", "test01A_out.nii.gz", package="pTFCE"))
 
-  ptfce=ptfce(img = readNIfTI("../../data/test01A_in.nii.gz"),
+  ptfce=ptfce(img = readNIfTI(system.file("extdata", "test01A_in.nii.gz", package="pTFCE")),
         V=20*20*20,
         Rd = 20, #magic value
-        mask = readNIfTI("../../data/test01A_mask.nii.gz"),
+        mask = readNIfTI(system.file("extdata", "test01A_mask.nii.gz", package="pTFCE")),
         Nh=50,
         verbose = F
   )$p
@@ -22,10 +22,10 @@ test_that("Volume with random data", {
 
 test_that("Volume with random data, smoothness estimated", {
 
-  expected=readNIfTI("../../data/test01B_out.nii.gz")
+  expected=readNIfTI(system.file("extdata", "test01B_out.nii.gz", package="pTFCE"))
 
-  ptfce=ptfce(img = readNIfTI("../../data/test01B_in.nii.gz"),
-              mask = readNIfTI("../../data/test01B_mask.nii.gz"),
+  ptfce=ptfce(img = readNIfTI(system.file("extdata", "test01B_in.nii.gz", package="pTFCE")),
+              mask = readNIfTI(system.file("extdata", "test01B_mask.nii.gz", package="pTFCE")),
               Nh=50,
               verbose = F
   )$p
