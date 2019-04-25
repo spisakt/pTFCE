@@ -1,0 +1,17 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/main
+    docker:
+      - image: tspisak/ptfce_r:latest
+    steps:
+      - checkout
+      - run:
+          command: |
+            R -e 'devtools::install_deps(dependencies = TRUE)'
+      - run:
+          command: |
+            R -e 'devtools::check()'
+      - store_artifacts:
+          path: man/
+          destination: man
