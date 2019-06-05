@@ -1,24 +1,27 @@
 #change.log
 
-v.0.1.3 (01.02.2019)
+v0.2.0 (05.06.2019)
+- performance patch: eliminated an unneccessary normalisation from the bottleneck of numerical integrations
+
+v0.1.3 (01.02.2019)
 - parameter order changed (might cause backward compatibility issues)
 - documentation improved
 - examples updated
 
-v.0.1.2 (16.01.2019)
+v0.1.2 (16.01.2019)
 - warning message when 4D-residual but no dof specified
 - output NIfTI data type forced to FLOAT32
 
-v.0.1.1 (22.10.2018)
+v0.1.1 (22.10.2018)
 - smoothness can be estimnated based on 4D residual data
   (https://github.com/spisakt/pTFCE/wiki/Some-important-notes-on-smoothness-estimation)
 
-v.0.1.0 (22.10.2018)
+v0.1.0 (22.10.2018)
 - post-publication releaase
 - compatibility to the pTFCE SPM Toolbox (https://github.com/spisakt/pTFCE/wiki/4.-SPM-Toolbox)
 - citation added
 
-v.0.0.5.0 (19.08.2018)
+v0.0.5.0 (19.08.2018)
 - parameter 'length.out' renamed to 'Nh'
 - deafult value for Nh=100
 
