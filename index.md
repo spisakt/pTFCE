@@ -9,6 +9,8 @@ Welcome to the [wiki](https://spisakt.github.io/pTFCE/) pages of pTFCE!
 
 > Smoothness estimation is now possible based on [4D residual data](https://github.com/spisakt/pTFCE/wiki/Some-important-notes-on-smoothness-estimation)
 
+----------------------------------------
+
 pTFCE (probabilistic TFCE) is a cluster-enahncement method to improve detectability of neuroimaging signal.
 It performs topology-based belief boosting by integrating cluster information into voxel-wise statistical inference.
 
