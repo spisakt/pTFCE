@@ -2,6 +2,7 @@
 
 Welcome to the [wiki](https://spisakt.github.io/pTFCE/) pages of pTFCE!
 
+----------------------------------------
 ## News
 > v0.2.0 available for both the R-package and teh SPM Toolbox. It features a speed performance patch: pTFCE is now almost twice as fast! 
 
