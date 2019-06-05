@@ -156,6 +156,7 @@ ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, dof=NA,  logpmin=
   snames = methods::slotNames(img)
   snames = snames[ !snames %in% c(".Data", "dim_") ]
   pTFCE = nifti(img = pTFCE, dim = dim(pTFCE))
+  #BUG: this does not work if input is an array instead of nifti image
   class(pTFCE) = class(img)
   oro.nifti::datatype(pTFCE) = 16 # FLOAT32
   oro.nifti::bitpix(pTFCE) = 32 # FLOAT32
@@ -258,7 +259,10 @@ dclust=function(h, V, Rd, c, ZestThr=1.3) # PDF of cluster extent, given h thers
     dclust[h<ZestThr]=0
     dclust
   }
-  dcl(h, V, Rd, c)/integrate(function(x){dcl(x, V, Rd, c)}, -Inf, Inf)$value
+  # patch: the normalising constant can be ignored here as the expression will be normalised again later
+  # So we spare a costly numarical integration and get much faster!
+  # Tests still pass, with a tolearnce
+  dcl(h, V, Rd, c)#/integrate(function(x){dcl(x, V, Rd, c)}, -Inf, Inf)$value
 }
 
 dvox.clust=function(h, V, Rd, c, ZestThr=1.3) # PDF of Z threshold value given cluster size
