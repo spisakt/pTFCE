@@ -15,8 +15,8 @@ test_that("Volume with random data", {
         verbose = F
   )$p
 
-  expect_equal(mean(ptfce), mean(expected))
-  expect_equal(sd(ptfce), sd(expected))
+  expect_equal(mean(ptfce), mean(expected), tolerance=0.0001)
+  expect_equal(sd(ptfce), sd(expected), tolerance=0.0001)
   expect_equal(ptfce[10,10,10], expected[10,10,10])
 })
 
@@ -32,8 +32,8 @@ test_that("Volume with random data, smoothness estimated", {
 
   #writeNIfTI(ptfce,"../../data/test01B_out")
 
-  expect_equal(mean(ptfce), mean(expected))
-  expect_equal(sd(ptfce), sd(expected))
+  expect_equal(mean(ptfce), mean(expected), tolerance=0.0001)
+  expect_equal(sd(ptfce), sd(expected), tolerance=0.0005)
   expect_equal(ptfce[10,10,10], expected[10,10,10])
 })
 
