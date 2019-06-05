@@ -2,7 +2,12 @@
 
 Welcome to the [wiki](https://spisakt.github.io/pTFCE/) pages of pTFCE!
 
+## News
+> v0.2.0 available for both the R-package and teh SPM Toolbox. It features a speed performance patch: pTFCE is now almost twice as fast! 
+
 > Since the start, more than 600 unique visitors, >1000 visits (as of Apr. 2019) and a lot of e-mails. Thanks for all your interest! 
+
+> Smoothness estimation is now possible based on [4D residual data](https://github.com/spisakt/pTFCE/wiki/Some-important-notes-on-smoothness-estimation)
 
 pTFCE (probabilistic TFCE) is a cluster-enahncement method to improve detectability of neuroimaging signal.
 It performs topology-based belief boosting by integrating cluster information into voxel-wise statistical inference.
@@ -18,7 +23,7 @@ For a detailed description and theory, please refer to (and please cite):
 [![DOI:10.1016/j.neuroimage.2018.09.078](https://zenodo.org/badge/DOI/10.1016/j.neuroimage.2018.09.078.svg)](https://doi.org/10.1016/j.neuroimage.2018.09.078)
 
 ## Download [![Open Source Love svg1](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/spisakt/pTFCE)
- [R-package](https://github.com/spisakt/pTFCE/releases) & [Installation](https://github.com/spisakt/pTFCE/wiki/3.-R-package) **NEW RELEASE** :new: smoothness estimation based on [4D residual data](https://github.com/spisakt/pTFCE/wiki/Some-important-notes-on-smoothness-estimation)<br/>
+ [R-package](https://github.com/spisakt/pTFCE/releases) & [Installation](https://github.com/spisakt/pTFCE/wiki/3.-R-package) 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/spisakt/pTFCE/graphs/commit-activity)
 [![CircleCI](https://circleci.com/gh/spisakt/pTFCE.svg?style=svg)](https://circleci.com/gh/spisakt/ptfce)
 [![GitHub license](https://img.shields.io/github/license/spisakt/pTFCE.svg)](https://github.com/spisakt/pTFCE/blob/master/LICENSE)
