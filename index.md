@@ -32,8 +32,7 @@ For a detailed description and theory, please refer to (and please cite):
 [![GitHub license](https://img.shields.io/github/license/spisakt/pTFCE.svg)](https://github.com/spisakt/pTFCE/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/spisakt/pTFCE.svg)](https://github.com/spisakt/pTFCE/releases/)
 [![GitHub issues](https://img.shields.io/github/issues/spisakt/pTFCE.svg)](https://GitHub.com/spisakt/pTFCE/issues/)
-[![GitHub issues-closed](https://img.shields.io/github/issues-closed/spisakt/pTFCE.svg)](https://GitHub.com/spisakt/pTFCE/issues?q=is%3Aissue+is%3Aclosed)
-[![HitCount](http://hits.dwyl.io/spisakt/pTFCE.svg)](http://hits.dwyl.io/spisakt/pTFCE)<br/>
+[![GitHub issues-closed](https://img.shields.io/github/issues-closed/spisakt/pTFCE.svg)](https://GitHub.com/spisakt/pTFCE/issues?q=is%3Aissue+is%3Aclosed)<br/>
  
  [SPM Matlab Toolbox](https://github.com/spisakt/pTFCE_spm/releases) & [Installation](https://github.com/spisakt/pTFCE/wiki/4.-SPM-Toolbox)<br/>
  [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/spisakt/pTFCE_SPM/graphs/commit-activity)
@@ -41,7 +40,6 @@ For a detailed description and theory, please refer to (and please cite):
 [![GitHub release](https://img.shields.io/github/release/spisakt/pTFCE_SPM.svg)](https://github.com/spisakt/pTFCE_SPM/releases/)
 [![GitHub issues](https://img.shields.io/github/issues/spisakt/pTFCE_SPM.svg)](https://GitHub.com/spisakt/pTFCE_SPM/issues/)
 [![GitHub issues-closed](https://img.shields.io/github/issues-closed/spisakt/pTFCE_SPM.svg)](https://GitHub.com/spisakt/pTFCE_SPM/issues?q=is%3Aissue+is%3Aclosed)
-[![HitCount](http://hits.dwyl.io/spisakt/pTFCE_SPM.svg)](http://hits.dwyl.io/spisakt/pTFCE_SPM)<br/>
 
 ## Users' Guide Contents
 1. [Overview](https://github.com/spisakt/pTFCE/wiki/1.-Overview)
