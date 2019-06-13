@@ -4,7 +4,9 @@ Welcome to the [wiki](https://spisakt.github.io/pTFCE/) pages of pTFCE!
 
 ----------------------------------------
 ## News
-> v0.2.0 available for both the [R-package](https://github.com/spisakt/pTFCE/releases/tag/v0.2.0) and the [SPM Toolbox](https://github.com/spisakt/pTFCE_spm/releases/tag/v0.2.0). It features a speed performance patch: pTFCE is now almost twice as fast! 
+> Check out this [thread](https://github.com/spisakt/pTFCE/issues/2) on applying pTFCE on both side of your Z-score map.
+
+> v0.2.0 available for both the [R-package](https://github.com/spisakt/pTFCE/releases) and the [SPM Toolbox](https://github.com/spisakt/pTFCE_spm/releases). It features a speed performance patch: pTFCE is now almost twice as fast! 
 
 > Since the start, 700 unique visitors, >1000 visits and a lot of e-mails. Thanks for all your interest! 
 
