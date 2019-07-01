@@ -1,4 +1,4 @@
-# Probabilistic Treshold-free Cluster Enhancement 
+# Probabilistic Threshold-free Cluster Enhancement 
 
 Welcome to the [wiki](https://spisakt.github.io/pTFCE/) pages of pTFCE!
 
