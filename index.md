@@ -1,9 +1,11 @@
 # Probabilistic Threshold-free Cluster Enhancement 
 
-Welcome to the [wiki](https://spisakt.github.io/pTFCE/) pages of pTFCE!
+Welcome to the [wiki](https://spisakt.github.io/pTFCE/) pages of pTFCE, developed and maintained by the Predictive Neuroimagiong Laboratory [(PNI-lab)](https://pni-lab.github.io) of the University Hospital Essen, Germany.
 
 ----------------------------------------
 ## News
+> From 01.01.2020, the maintanence and developement of pTFCE will be continued in the recently established Predictive Neuroimagiong Laboratory ([PNI-lab](https://pni-lab.github.io)), lead by Tamas Spisak.
+
 > Check out this [thread](https://github.com/spisakt/pTFCE/issues/2) on applying pTFCE on both side of your Z-score map.
 
 > v0.2.0 available for both the [R-package](https://github.com/spisakt/pTFCE/releases) and the [SPM Toolbox](https://github.com/spisakt/pTFCE_spm/releases). It features a speed performance patch: pTFCE is now almost twice as fast! 
