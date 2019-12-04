@@ -1,8 +1,8 @@
 #main function and helper functions for pTFCE R package
 
 # imports:
-devtools::use_package("oro.nifti")
-devtools::use_package("mmand")
+usethis::use_package("oro.nifti")
+usethis::use_package("mmand")
 
 #main function
 
