@@ -1,5 +1,8 @@
 #change.log
 
+v0.2.2 (29.04.2020)
+- bugfix: integartion underflow produced NaNs at low values with low-smoothness images
+
 v0.2.1 (05.06.2019)
 - bugfix: devtools::use_package during install error fixed
 

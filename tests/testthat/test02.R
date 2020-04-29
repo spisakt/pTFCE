@@ -104,8 +104,8 @@ test_that("Volume with spherical signal and random noise, SNR=3, smoothness esti
                    verbose = F
   )$logp
 
-  expect_equal(mean(ptfce), mean(expected), tolerance=1e-6)
-  expect_equal(sd(ptfce), sd(expected), tolerance=1e-6)
+  expect_equal(mean(ptfce), mean(expected), tolerance=1e-5)
+  expect_equal(sd(ptfce), sd(expected), tolerance=1e-5)
   expect_equal(ptfce[10,10,10], expected[10,10,10], tolerance=1e-6) #background
   expect_equal(ptfce[47,32,16], expected[47,32,16], tolerance = 1.2e-05) #true signal
 })

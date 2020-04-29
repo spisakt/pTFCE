@@ -247,7 +247,7 @@ pvox=function(h) # p-value for voxel value
   pnorm(h, lower.tail = F)
 }
 
-dclust=function(h, V, Rd, c, ZestThr=1.3) # PDF of cluster extent, given h thershold
+dclust=function(h, V, Rd, c, ZestThr=1.3, CONST=10^25) # PDF of cluster extent, given h thershold
 {
   if (is.na(c))
     return(dvox(h))
@@ -262,7 +262,12 @@ dclust=function(h, V, Rd, c, ZestThr=1.3) # PDF of cluster extent, given h thers
   # patch: the normalising constant can be ignored here as the expression will be normalised again later
   # So we spare a costly numarical integration and get much faster!
   # Tests still pass, with a tolearnce
-  dcl(h, V, Rd, c)#/integrate(function(x){dcl(x, V, Rd, c)}, -Inf, Inf)$value
+  #dcl(h, V, Rd, c)#/integrate(function(x){dcl(x, V, Rd, c)}, -Inf, Inf)$value
+
+  #bugfix (GitHUb Issue #8)
+  # we can multiply to avoid underflow in the integration in dvox.clust
+  # it will be normalised anyway
+  dcl(h, V, Rd, c)*CONST
 }
 
 dvox.clust=function(h, V, Rd, c, ZestThr=1.3) # PDF of Z threshold value given cluster size
