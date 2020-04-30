@@ -247,7 +247,7 @@ pvox=function(h) # p-value for voxel value
   pnorm(h, lower.tail = F)
 }
 
-dclust=function(h, V, Rd, c, ZestThr=1.3, CONST=10^25) # PDF of cluster extent, given h thershold
+dclust=function(h, V, Rd, c, ZestThr=1.3, CONST=10^40) # PDF of cluster extent, given h thershold
 {
   if (is.na(c))
     return(dvox(h))
