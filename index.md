@@ -4,6 +4,8 @@ Welcome to the [wiki](https://spisakt.github.io/pTFCE/) pages of pTFCE, develope
 
 ----------------------------------------
 ## News
+> New R-package release [0.2.2](https://github.com/spisakt/pTFCE/releases), with a small bugfix (fixing NaN values at low Z-scores on imgages with low-smoothness).
+
 > From 01.01.2020, the maintanence and developement of pTFCE will be continued in the recently established Predictive Neuroimagiong Laboratory ([PNI-lab](https://pni-lab.github.io)), lead by Tamas Spisak.
 
 > Check out this [thread](https://github.com/spisakt/pTFCE/issues/2) on applying pTFCE on both side of your Z-score map.
