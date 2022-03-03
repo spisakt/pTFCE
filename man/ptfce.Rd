@@ -4,9 +4,20 @@
 \alias{ptfce}
 \title{pTFCE main function.}
 \usage{
-ptfce(img, mask, Rd = NA, V = NA, resels = NA, residual = NA,
-  dof = NA, logpmin = 0, logpmax = -log(pnorm(max(img), lower.tail =
-  F)), ZestThr = 1.3, Nh = 100, verbose = T)
+ptfce(
+  img,
+  mask,
+  Rd = NA,
+  V = NA,
+  resels = NA,
+  residual = NA,
+  dof = NA,
+  logpmin = 0,
+  logpmax = -log(stats::pnorm(max(img), lower.tail = F)),
+  ZestThr = 1.3,
+  Nh = 100,
+  verbose = T
+)
 }
 \arguments{
 \item{img}{Nifti Z-score image to enhance ("nifti" class from "oro.nifti" package)}
@@ -66,7 +77,8 @@ The parameters logpmin and logpmax define the range of values the incremental th
 MASK=readNIfTI("mask.nii.gz");
 
 # OPTION 1: use standalone with Z-map-based smoothness estimation
-pTFCE=ptfce(Z, MASK); # estimate smoothness based on the Z-score map (might be inaccurate, but still garantees FWER)
+pTFCE=ptfce(Z, MASK); # estimate smoothness based on the Z-score map
+# (might be inaccurate, but still guarantees FWER)
 
 #OPTION 2: use smoothness estimation based oj residual data (more accurate)
 RES4D=readNIfTI("res4D.nii.gz");

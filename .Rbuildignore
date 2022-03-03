@@ -1,2 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^_config\.yml$
+^change\.log$
+^circle\.yml$
+^Dockerfile$
+^img$
+^index\.md$
+^run_ptfce_R\.sh$

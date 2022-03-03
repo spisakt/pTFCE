@@ -1,8 +1,5 @@
 #main function and helper functions for pTFCE R package
 
-# imports:
-usethis::use_package("oro.nifti")
-usethis::use_package("mmand")
 
 #main function
 
@@ -57,7 +54,8 @@ usethis::use_package("mmand")
 #' MASK=readNIfTI("mask.nii.gz");
 #'
 #' # OPTION 1: use standalone with Z-map-based smoothness estimation
-#' pTFCE=ptfce(Z, MASK); # estimate smoothness based on the Z-score map (might be inaccurate, but still garantees FWER)
+#' pTFCE=ptfce(Z, MASK); # estimate smoothness based on the Z-score map
+#' # (might be inaccurate, but still guarantees FWER)
 #'
 #' #OPTION 2: use smoothness estimation based oj residual data (more accurate)
 #' RES4D=readNIfTI("res4D.nii.gz");
@@ -78,7 +76,7 @@ usethis::use_package("mmand")
 #'
 #' #See https://github.com/spisakt/pTFCE fro more examples
 #' }
-ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, dof=NA,  logpmin=0, logpmax=-log(pnorm(max(img), lower.tail = F)), ZestThr=1.3, Nh=100, verbose=T )
+ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, dof=NA,  logpmin=0, logpmax=-log(stats::pnorm(max(img), lower.tail = F)), ZestThr=1.3, Nh=100, verbose=T )
 {
   if (length(img[is.na(img)])>0)
   {
@@ -118,17 +116,17 @@ ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, dof=NA,  logpmin=
   logp.thres=seq(logpmin, logpmax, length.out=Nh)
   dh=logp.thres[2]-logp.thres[1]
   p.thres=exp(-logp.thres)
-  threshs=qnorm(p.thres, lower.tail = F)
+  threshs=stats::qnorm(p.thres, lower.tail = F)
   threshs[1]=-9999999999 # exp(-Inf):=0 #TODO: machine minimum
   ndh = length(threshs)
   CLUST=array(NA, dim=c(dim(img), length(threshs)))
   PVC=array(1, dim=c(dim(img), length(threshs)))
 
   if (verbose) cat("* Performing pTFCE...\n")
-  if (verbose) pb <- txtProgressBar(style = 3)
+  if (verbose) pb <- utils::txtProgressBar(style = 3)
   for (hi in 1:length(threshs))
   {
-    if (verbose) setTxtProgressBar(pb, hi/length(threshs))
+    if (verbose) utils::setTxtProgressBar(pb, hi/length(threshs))
     h=threshs[hi]
     thr=img
     thr[img>h]=1
@@ -155,12 +153,12 @@ ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, dof=NA,  logpmin=
   # copy nifit header information
   snames = methods::slotNames(img)
   snames = snames[ !snames %in% c(".Data", "dim_") ]
-  pTFCE = nifti(img = pTFCE, dim = dim(pTFCE))
+  pTFCE = oro.nifti::nifti(img = pTFCE, dim = dim(pTFCE))
   #BUG: this does not work if input is an array instead of nifti image
   class(pTFCE) = class(img)
   oro.nifti::datatype(pTFCE) = 16 # FLOAT32
   oro.nifti::bitpix(pTFCE) = 32 # FLOAT32
-  pTFCE=zero_trans(pTFCE)
+  pTFCE=oro.nifti::zero_trans(pTFCE)
   for (islot in snames) {
     methods::slot(pTFCE, islot) = methods::slot(img, islot)
   }
@@ -189,10 +187,10 @@ ptfce=function(img, mask, Rd=NA, V=NA, resels=NA, residual=NA, dof=NA,  logpmin=
     }
 
   }
-  Z=qnorm(pTFCE, lower.tail = F)
+  Z=stats::qnorm(pTFCE, lower.tail = F)
   oro.nifti::datatype(Z) = 16 # FLOAT32
   oro.nifti::bitpix(Z) = 32 # FLOAT32
-  Z=zero_trans(Z)
+  Z=oro.nifti::zero_trans(Z)
   return(list(p=pTFCE,
               logp=-log(pTFCE),
               Z=Z,
@@ -229,7 +227,7 @@ aggregate_logpvals=function(logpvals, d) #
 Es=function(h, V, Rd)
 {
   h2=h*h
-  ret=  ( log(V)+pnorm(h, log.p = T, lower.tail = F) )
+  ret=  ( log(V)+stats::pnorm(h, log.p = T, lower.tail = F) )
   h2=h2[h>=1.1]
   ret[h>=1.1] = ret[h>=1.1] - ( log(Rd)+log(h2-1)-h2/2+-2*log(2*pi) ) # from FSL
 
@@ -239,12 +237,12 @@ Es=function(h, V, Rd)
 
 dvox=function(h) # PDF of Z threshold/voxel value
 {
-  dnorm(h )
+  stats::dnorm(h )
 }
 
 pvox=function(h) # p-value for voxel value
 {
-  pnorm(h, lower.tail = F)
+  stats::pnorm(h, lower.tail = F)
 }
 
 dclust=function(h, V, Rd, c, ZestThr=1.3, CONST=10^40) # PDF of cluster extent, given h thershold
@@ -278,7 +276,7 @@ dvox.clust=function(h, V, Rd, c, ZestThr=1.3) # PDF of Z threshold value given c
   if (is.nan(dclust(h, V, Rd, c)[1])) # underflow
     return(dvox(h)*dclust(h, V, Rd, c))
 
-  dvox(h)*dclust(h, V, Rd, c, ZestThr)/integrate(function(x){dvox(x)*dclust(x, V, Rd, c, ZestThr)}, -Inf, Inf)$value
+  dvox(h)*dclust(h, V, Rd, c, ZestThr)/stats::integrate(function(x){dvox(x)*dclust(x, V, Rd, c, ZestThr)}, -Inf, Inf)$value
 }
 
 pvox.clust=function(V, Rd, c, actH, ZestThr=1.3) # p-value for Z threshold value given cluster size
@@ -289,7 +287,7 @@ pvox.clust=function(V, Rd, c, actH, ZestThr=1.3) # p-value for Z threshold value
   if (is.nan(dvox.clust(actH, V, Rd, c, ZestThr=ZestThr)[1])) # underflow
     return(exp(-745)) #TODO: make machnie independent
 
-  integrate(function(x){dvox.clust(x, V, Rd, c, ZestThr=ZestThr)}, actH, Inf)$value
+  stats::integrate(function(x){dvox.clust(x, V, Rd, c, ZestThr=ZestThr)}, actH, Inf)$value
 }
 
 #' Estimate global image smoothness.
@@ -341,7 +339,7 @@ pvox.clust=function(V, Rd, c, actH, ZestThr=1.3) # p-value for Z threshold value
 smoothest=function(img, mask, dof=NA, verbose=T)
 {
   if (verbose) cat("* Estimating smoothness based on the data...\n")
-  if (verbose) pb <- txtProgressBar(style = 3)
+  if (verbose) pb <- utils::txtProgressBar(style = 3)
 
   stand = standardise(mask, img);
   mask_volume=stand$count
@@ -369,7 +367,7 @@ smoothest=function(img, mask, dof=NA, verbose=T)
   if (!usez) zstart=1
   for (z in 2:dim(img)[3])
   {
-    if (verbose) setTxtProgressBar(pb, z/dim(img)[3])
+    if (verbose) utils::setTxtProgressBar(pb, z/dim(img)[3])
     for (y in 2:dim(img)[2])
     {
       for (x in 2:dim(img)[1])
@@ -510,7 +508,7 @@ standardise=function(mask, R)
     #    standardise data in 4th direction
     R=aperm(apply(R, c(1,2,3), scale), c(2,3,4,1))
     R[is.na(R)]=0
-    std=apply(R, c(1,2,3), sd)
+    std=apply(R, c(1,2,3), stats::sd)
     mask[std<=0]=0 #TODO_ready: updtae mask if it differs from the actual data
 
   }#endif 4d
