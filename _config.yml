@@ -2,6 +2,6 @@ theme: jekyll-theme-minimal
 title: pTFCE
 description: by Tamas Spisak
 logo: img/logo.png
-google_analytics: UA-120757757-1
+google_analytics: 361192785
 plugins:
   - jemoji
